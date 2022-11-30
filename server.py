@@ -30,3 +30,5 @@ def digital_write(pin_name, state):
         GPIO.output(pin, GPIO.LOW)  # digitalWrite(pin_name, LOW)
         return 'Set pin {0} to LOW'.format(pin_name)
     return 'Something went wrong'
+
+    #Adding this line for a change

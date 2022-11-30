@@ -1,6 +1,6 @@
 # electronics_raspberrypi
 
-__________Console Connection______
+__________Console Connection________________
 To see available ports:
 ls /dev/cu.*
 
@@ -11,14 +11,16 @@ screen /dev/cu.usbserial-NNNN 115200
 username: pi
 
 
-_________SSH Connection________
+_________SSH Connection_________________
 ssh pi@current ip address
 
 
 
 
 
-_______Useful Raspi commands:
+_______Useful Raspi commands__________
+To start hosting the flask server:
+    flask run --host=0.0.0.0
 raspi-config
 ifconfig
 ping
