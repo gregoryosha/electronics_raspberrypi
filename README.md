@@ -16,10 +16,9 @@ ssh pi@current ip address
 
 
 
-
-
 _______Useful Raspi commands__________
 To start hosting the flask server:
+    export FLASK_APP=server.py
     flask run --host=0.0.0.0
 raspi-config
 ifconfig
