@@ -1,7 +1,9 @@
-fetch('/test')
+var index = 33;
+
+fetch('/getdata/${index}')
     .then(function (response) {
-        return response.json();
+        return response.text();
     }).then(function (text) {
-        console.log('GET response: ');
-        console.log(text.greeting);
+        console.log('GET response text: ');
+        console.log(text);
     });
