@@ -23,7 +23,7 @@ window.addEventListener('keydown', (press)=>{
     sendMessage('40/HIGH');
   }
   else if (press.key == 'ArrowLeft') {
-    sendMessage('39/HIGH');
+    sendMessage('38/HIGH');
   }
   // else if (press.key == 'd') {
   //   sendMessage('right');
