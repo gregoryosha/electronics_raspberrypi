@@ -2,15 +2,13 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>Flask Tutorial</title>
+    <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title>Flask Demo</title>
   </head>
   <body>
     <h2>Demo External JavaScript</h2>
-    <p>This example links to "myScript.js".</p>
-    <p>(myFunction is stored in "myScript.js")</p>
-    
-    <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}">
-  
-    </script>
+    <button onclick="print_out()">click me!</button>
+    <p id="demo"></p>
     </body>
 </html>
