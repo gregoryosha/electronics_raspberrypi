@@ -38,7 +38,7 @@ window.addEventListener('keyup', (press)=>{
     sendMessage('40/LOW');
   }
   else if (press.key == 'ArrowLeft') {
-    sendMessage('39/LOW');
+    sendMessage('38/LOW');
   }
   // }
   // else if (press.key == 'a') {
