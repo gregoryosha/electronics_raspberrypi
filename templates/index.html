@@ -12,6 +12,8 @@
     <p>This example links to "myScript.js".</p>
     <p>(myFunction is stored in "myScript.js")</p>
     
-    <script src="./index.js"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}">
+  
+    </script>
     </body>
 </html>

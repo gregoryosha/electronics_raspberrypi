@@ -1,15 +1,15 @@
 from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
-import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BOARD)
+#import RPi.GPIO as GPIO
+#GPIO.setmode(GPIO.BOARD)
 
 data = list(range(1,300,3))
 
 @app.route('/')
 def home():
     example_embed='This string is from python'
-    return render_template('index.html' , 'index.js')
+    return render_template('index.html')
 
 @app.route('/test', methods=['GET', 'POST'])
 def test_function():
