@@ -17,7 +17,7 @@ function led_off() {
 
 
 
-window.addEventListener('keydown', (press)=>{
+window.addEventListener('keypress', (press)=>{
   console.log(press)
   if (press.key == 'ArrowRight') {
     sendMessage('40/HIGH');
