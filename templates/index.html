@@ -7,6 +7,14 @@
   <body>
     <h1> Python Fetch Example</h1>
     <p id='embed'>{{embed}}</p>
-    <script src="/index.js"></script>
+    <script>
+        fetch('/test')
+      .then(function (response) {
+          return response.json();
+      }).then(function (text) {
+          console.log('GET response: ');
+          console.log(text.greeting);
+      });
+    </script>
     <body>
 </html>
