@@ -1,8 +1,8 @@
 from flask import Flask, render_template, jsonify, request
 app = Flask(__name__)
 
-# import RPi.GPIO as GPIO
-# GPIO.setmode(GPIO.BOARD)
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
 
 data = list(range(1,300,3))
 
