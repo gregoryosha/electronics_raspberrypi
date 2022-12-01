@@ -6,11 +6,11 @@ import RPi.GPIO as GPIO
 
 CHANNEL = 7
 
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(CHANNEL, GPIO.OUT)
+GPIO.setmode(GPIO.BOARD)  # type: ignore
+GPIO.setup(CHANNEL, GPIO.OUT)  # type: ignore
 
 while True:
     time.sleep(1)
-    GPIO.output(CHANNEL, GPIO.HIGH)
+    GPIO.output(CHANNEL, True)  # type: ignore
     time.sleep(1)
-    GPIO.output(CHANNEL, GPIO.LOW)
+    GPIO.output(CHANNEL, False)  # type: ignore
