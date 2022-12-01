@@ -9,7 +9,7 @@ data = list(range(1,300,3))
 @app.route('/')
 def home():
     example_embed='This string is from python'
-    return render_template('index.html')
+    return render_template('index.html' , 'index.js')
 
 @app.route('/test', methods=['GET', 'POST'])
 def test_function():
