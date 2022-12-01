@@ -4,7 +4,7 @@ function print_out() {
 }
 
 function sendMessage(message){
-  $.get(`/digital/write/40/${message}`);
+  $.get(`/digital/write/${message}`);
 }
 
 function led_on() {
@@ -19,12 +19,12 @@ function led_off() {
 
 window.addEventListener('keydown', (press)=>{
   console.log(press)
-  if (press.key == 'w') {
-    sendMessage('HIGH');
+  if (press.key == 'ArrowRight') {
+    sendMessage('40/HIGH');
   }
-  // else if (press.key == 'a') {
-  //   sendMessage('left');
-  // }
+  else if (press.key == 'ArrowLeft') {
+    sendMessage('39/HIGH');
+  }
   // else if (press.key == 'd') {
   //   sendMessage('right');
   // }
@@ -34,8 +34,11 @@ window.addEventListener('keydown', (press)=>{
 })
 
 window.addEventListener('keyup', (press)=>{
-  if (press.key == 'w') {
-    sendMessage('LOW');
+  if (press.key == 'ArrowRight') {
+    sendMessage('40/LOW');
+  }
+  else if (press.key == 'ArrowLeft') {
+    sendMessage('39/LOW');
   }
   // }
   // else if (press.key == 'a') {
