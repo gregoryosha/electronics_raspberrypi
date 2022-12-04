@@ -23,33 +23,12 @@ def main():
 
     # Declare an named instance of class pass a name and type of motor
 
-    # mymotortest = RpiMotorLib.BYJMotor("MyMotorOne", "Nema")
-    # time.sleep(0.5)
+    mymotortest = RpiMotorLib.BYJMotor("MyMotorOne", "Nema")
 
-    # # call the function pass the arguments
-    # mymotortest.motor_run(MOTOR_LEFT_PINS, 0.01, 10, False, False, "whole", 0.05)
+    time.sleep(0.5)
 
-    for pin in MOTOR_LEFT_PINS:
-        print(pin)
-        GPIO.setup(pin, GPIO.OUT)  # type: ignore
-        GPIO.output(pin, 0)  # type: ignore
-
-    halfstep_seq = [
-        [1, 0, 0, 0],
-        [1, 1, 0, 0],
-        [0, 1, 0, 0],
-        [0, 1, 1, 0],
-        [0, 0, 1, 0],
-        [0, 0, 1, 1],
-        [0, 0, 0, 1],
-        [1, 0, 0, 1],
-    ]
-
-    for i in range(512):
-        for halfstep in range(8):
-            for pin in range(4):
-                GPIO.output(MOTOR_LEFT_PINS[pin], halfstep_seq[halfstep][pin])  # type: ignore
-                time.sleep(0.001)
+    # call the function pass the arguments
+    mymotortest.motor_run(MOTOR_LEFT_PINS, 0.0075, 20, False, False, "half", 0.05)
 
     GPIO.cleanup()  # type: ignore
 
