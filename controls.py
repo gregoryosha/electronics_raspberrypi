@@ -28,7 +28,7 @@ def main():
     time.sleep(0.5)
 
     # call the function pass the arguments
-    mymotortest.motor_run(MOTOR_LEFT_PINS, 0.0075, 20, False, False, "half", 0.05)
+    mymotortest.motor_run(MOTOR_LEFT_PINS, 0.01, 20, False, True, "half", 0.05)
 
     GPIO.cleanup()  # type: ignore
 
