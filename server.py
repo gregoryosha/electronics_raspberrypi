@@ -1,7 +1,9 @@
 from flask import Flask, render_template, jsonify, request
-app = Flask(__name__)
-
+import time
+from multiprocessing import Process, Value
 import RPi.GPIO as GPIO
+
+app = Flask(__name__)
 GPIO.setmode(GPIO.BOARD)
 
 pin_states = {
@@ -33,11 +35,17 @@ def digital_write(pin_name, state):
         return 'Set pin {0} to LOW'.format(pin_name)
     return 'Something went wrong'
 
-async def control_loop():
-    while True:
+def record_loop(loop_on):
+   while True:
+      if loop_on.value == True:
         print("looping")
         GPIO.output(40, pin_states[40])
         GPIO.output(38, pin_states[38])
+      time.sleep(1)
 
-control_loop()
-app.run(host='0.0.0.0', use_reloader=False, debug=True)
+if __name__ == "__main__":
+   recording_on = Value('b', True)
+   p = Process(target=record_loop, args=(recording_on,))
+   p.start()  
+   app.run(host='0.0.0.0', use_reloader=False, debug=True)
+   p.join()
