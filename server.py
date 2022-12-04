@@ -35,6 +35,7 @@ def digital_write(pin_name, state):
 
 async def control_loop():
     while True:
+        print("looping")
         GPIO.output(40, pin_states[40])
         GPIO.output(38, pin_states[38])
 
