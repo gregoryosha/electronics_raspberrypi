@@ -30,6 +30,7 @@ def main():
     # mymotortest.motor_run(MOTOR_LEFT_PINS, 0.01, 10, False, False, "whole", 0.05)
 
     for pin in MOTOR_LEFT_PINS:
+        print(pin)
         GPIO.setup(pin, GPIO.OUT)  # type: ignore
         GPIO.output(pin, 0)  # type: ignore
 
