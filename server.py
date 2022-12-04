@@ -1,15 +1,11 @@
 from flask import Flask, render_template, jsonify, request
 import time
-from multiprocessing import Process, Value
+from multiprocessing import Process, Manager
 import RPi.GPIO as GPIO
 
 app = Flask(__name__)
 GPIO.setmode(GPIO.BOARD)
 
-pin_states = {
-    40: GPIO.LOW,
-    38: GPIO.LOW
-}
 GPIO.setup(40, GPIO.OUT)
 GPIO.setup(38, GPIO.OUT)
 
@@ -38,16 +34,19 @@ def digital_write(pin_name, state):
     return 'Something went wrong'
 
 def record_loop(loop_on):
-   while True:
-      if loop_on.value == True:
-        print(pin_states[40])
-        GPIO.output(40, pin_states[40])
-        GPIO.output(38, pin_states[38])
-      time.sleep(1)
+    while True:
+        if loop_on.value == True:
+            print(pin_states[40])
+            GPIO.output(40, pin_states[40])
+            GPIO.output(38, pin_states[38])
+        time.sleep(1)
 
 if __name__ == "__main__":
-   recording_on = Value('b', True)
-   p = Process(target=record_loop, args=(recording_on,))
-   p.start()  
-   app.run(host='0.0.0.0', use_reloader=False, debug=True)
-   p.join()
+    manager = Manager()
+    pin_states = manager.dict()
+    pin_states[40] = GPIO.LOW
+    pin_states[38] = GPIO.LOW
+    p = Process(target=record_loop, args=(pin_states,))
+    p.start()  
+    app.run(host='0.0.0.0', use_reloader=False, debug=True)
+    p.join()
