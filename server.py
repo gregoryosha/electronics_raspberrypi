@@ -41,7 +41,7 @@ def record_loop(loop_on, pin_states):
             print(pin_states[40])
             GPIO.output(40, pin_states[40])
             GPIO.output(38, pin_states[38])
-        time.sleep(1)
+       # time.sleep(1)
 
 if __name__ == "__main__":
     manager = Manager()
