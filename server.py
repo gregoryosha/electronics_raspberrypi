@@ -33,8 +33,10 @@ def digital_write(pin_name, state):
         return 'Set pin {0} to LOW'.format(pin_name)
     return 'Something went wrong'
 
-app.run(host='0.0.0.0', use_reloader=False, debug=True)
+async def control_loop():
+    while True:
+        GPIO.output(40, pin_states[40])
+        GPIO.output(38, pin_states[38])
 
-while True:
-    GPIO.output(40, pin_states[40])
-    GPIO.output(38, pin_states[38])
+control_loop()
+app.run(host='0.0.0.0', use_reloader=False, debug=True)
