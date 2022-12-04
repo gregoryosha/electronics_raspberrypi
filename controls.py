@@ -5,10 +5,10 @@ from typing import Any
 import RPi.GPIO as GPIO
 from RpiMotorLib import RpiMotorLib
 
-CHANNEL = 7
+# CHANNEL = 7
 
-GPIO.setmode(GPIO.BOARD)  # type: ignore
-GPIO.setup(CHANNEL, GPIO.OUT)  # type: ignore
+# GPIO.setmode(GPIO.BOARD)  # type: ignore
+# GPIO.setup(CHANNEL, GPIO.OUT)  # type: ignore
 
 MOTOR_LEFT_PINS = list(range(27, 35, 2))
 MOTOR_RIGHT_PINS = list(range(35, 39))
