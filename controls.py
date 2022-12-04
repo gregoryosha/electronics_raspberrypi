@@ -10,8 +10,8 @@ from RpiMotorLib import RpiMotorLib
 # GPIO.setmode(GPIO.BOARD)  # type: ignore
 # GPIO.setup(CHANNEL, GPIO.OUT)  # type: ignore
 
-MOTOR_LEFT_PINS = list(range(27, 35, 2))
-MOTOR_RIGHT_PINS = list(range(35, 39))
+MOTOR_LEFT_PINS = [11, 13, 15, 16]
+MOTOR_RIGHT_PINS = [29, 31, 32, 33]
 
 
 def main():
