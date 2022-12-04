@@ -40,7 +40,7 @@ def digital_write(pin_name, state):
 def record_loop(loop_on):
    while True:
       if loop_on.value == True:
-        print("looping")
+        print(pin_states[40])
         GPIO.output(40, pin_states[40])
         GPIO.output(38, pin_states[38])
       time.sleep(1)
