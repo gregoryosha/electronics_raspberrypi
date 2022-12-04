@@ -41,14 +41,14 @@ def record_loop(loop_on, pin_states):
             GPIO.output(40, pin_states[40])
             GPIO.output(38, pin_states[38])
 
-if __name__ == "__main__":
-    manager = Manager()
-    pin_states = manager.dict()
-    global_pin_states = pin_states
-    pin_states[40] = GPIO.LOW
-    pin_states[38] = GPIO.LOW
-    recording_on = Value('b', True)
-    p = Process(target=record_loop, args=(recording_on, pin_states,))
-    p.start()  
-    app.run(host='0.0.0.0', use_reloader=False, debug=True)
-    p.join()
+#if __name__ == "__main__":
+manager = Manager()
+pin_states = manager.dict()
+global_pin_states = pin_states
+pin_states[40] = GPIO.LOW
+pin_states[38] = GPIO.LOW
+recording_on = Value('b', True)
+p = Process(target=record_loop, args=(recording_on, pin_states,))
+p.start()  
+app.run(host='0.0.0.0', use_reloader=False, debug=True)
+p.join()
