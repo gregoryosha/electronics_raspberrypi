@@ -5,10 +5,11 @@ from typing import Any
 
 import RPi.GPIO as GPIO
 
+# Defines motor spins
 CLOCKWISE = 1
 COUNTER_CLOCKWISE = -1
 
-
+# Enum for directions
 class Direction(Enum):
     FORWARD = (COUNTER_CLOCKWISE, CLOCKWISE)
     BACKWARD = (CLOCKWISE, COUNTER_CLOCKWISE)
@@ -16,12 +17,19 @@ class Direction(Enum):
     RIGHT = (COUNTER_CLOCKWISE, COUNTER_CLOCKWISE)
 
 
+# Reference lists
+TRANSLATIONAL_DIRECTIONS = [Direction.FORWARD, Direction.BACKWARD]
+ROTATIONAL_DIRECTIONS = [Direction.LEFT, Direction.RIGHT]
+
 STEPS_PER_ROTATION = 50
 
 RADIUS_WHEEL_MM = 45
+WHEEL_CIRCUMFERENCE = 2 * math.pi * RADIUS_WHEEL_MM
 
 TURNING_RADIUS_MM = 85
+TURNING_CIRCUMFERENCE = 2 * math.pi * TURNING_RADIUS_MM
 
+# Half-step stepper motor sequence
 HALFSTEP_SEQUENCE = [
     [1, 0, 0, 0],
     [1, 1, 0, 0],
@@ -62,15 +70,17 @@ def main() -> None:
     GPIO.cleanup()  # type: ignore
 
 
-def rotate_degrees(
-    degrees: float, time_seconds: float, turn_direction: Direction
-) -> None:
+def rotate_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
     """Turns robot specified degrees in an amount of time in a direction."""
 
+    # Raises error if not in rotational directions
+    if direction not in ROTATIONAL_DIRECTIONS:
+        raise ValueError("Invalid direction for rotational movement.")
+
     # Calculates perimeter distance needed to travel
-    distance_mm = 2 * math.pi * TURNING_RADIUS_MM * degrees / 360
+    distance_mm = TURNING_CIRCUMFERENCE * degrees / 360
     # Moves calculated distance
-    move_distance(distance_mm, time_seconds, turn_direction)
+    _engage_motors((distance_mm / WHEEL_CIRCUMFERENCE), time_seconds, direction)
 
 
 def move_distance(
@@ -78,10 +88,12 @@ def move_distance(
 ) -> None:
     """Turns motors a GROUND DISTANCE in an amount of time in a direction."""
 
-    # Calculates circumference of wheel
-    circumference = 2 * math.pi * RADIUS_WHEEL_MM
+    # Raises error if not in translational directions
+    if direction not in TRANSLATIONAL_DIRECTIONS:
+        raise ValueError("Invalid direction for translational movement.")
+
     # Turns number of rotations needed to move distance
-    _engage_motors((distance_mm / circumference), time_seconds, direction)
+    _engage_motors((distance_mm / WHEEL_CIRCUMFERENCE), time_seconds, direction)
 
 
 def _engage_motors(
@@ -93,7 +105,7 @@ def _engage_motors(
 
     # Throws error if motor would be turning too fast
     if number_rotations > time_seconds:
-        raise ValueError("Too many rotations! Use a larger time!")
+        raise ValueError("Too many rotations! Use a longer time!")
 
     # Defines a number of steps
     steps_count = int(STEPS_PER_ROTATION * number_rotations)
@@ -121,12 +133,12 @@ def _engage_motors(
 # ======== DEFAULT FUNCTIONS ======== #
 
 
-def move_forward(distance_mm: float = 200, time_seconds: float = 3):
+def move_forward(distance_mm: float = 250, time_seconds: float = 3):
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.FORWARD)
 
 
-def move_backward(distance_mm: float = 200, time_seconds: float = 3):
+def move_backward(distance_mm: float = 250, time_seconds: float = 3):
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.BACKWARD)
 
