@@ -53,7 +53,7 @@ def main():
 
     time.sleep(1)
 
-    turn_rotation(3, 5, (COUNTER_CLOCKWISE, COUNTER_CLOCKWISE))
+    turn_rotation(3, 5, (COUNTER_CLOCKWISE, CLOCKWISE))
 
     time.sleep(1)
 
@@ -84,7 +84,7 @@ def turn_rotation(
         if direction == CLOCKWISE:
             sequences.append(HALFSTEP_SEQUENCE)
         else:
-            sequences.append(HALFSTEP_SEQUENCE.reverse())
+            sequences.append(HALFSTEP_SEQUENCE[::-1])
 
     print(f"Sequences: {sequences}")
 
