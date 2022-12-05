@@ -8,9 +8,14 @@ import RPi.GPIO as GPIO
 CLOCKWISE = True
 COUNTER_CLOCKWISE = False
 
+FORWARD = (CLOCKWISE, COUNTER_CLOCKWISE)
+BACKWARD = (COUNTER_CLOCKWISE, CLOCKWISE)
+
 STEPS_PER_ROTATION = 50
 
 RADIUS_WHEEL_MM = 45
+
+TURNING_RADIUS_MM = 85
 
 HALFSTEP_SEQUENCE = [
     [1, 0, 0, 0],
@@ -53,16 +58,29 @@ def main():
 
     time.sleep(1)
 
-    turn_rotation(3, 5, (COUNTER_CLOCKWISE, CLOCKWISE))
+    turn_rotation(3, 5, FORWARD)
 
     time.sleep(1)
 
-    turn_rotation(1, 3, (CLOCKWISE, COUNTER_CLOCKWISE))
+    turn_rotation(1, 3, BACKWARD)
 
     GPIO.cleanup()  # type: ignore
 
 
-def move_distance(distance_mm, time_seconds, directions: bool = True):
+def turn(degrees, time_seconds, turn_direction):
+
+    directions = (
+        (COUNTER_CLOCKWISE, COUNTER_CLOCKWISE)
+        if turn_direction == CLOCKWISE
+        else (CLOCKWISE, CLOCKWISE)
+    )
+
+    distance_mm = 2 * math.pi * TURNING_RADIUS_MM * degrees / 360
+
+    move_distance(distance_mm, time_seconds, directions)
+
+
+def move_distance(distance_mm, time_seconds, directions: tuple[bool, bool] = FORWARD):
     # Calculates circumference of wheel
     circumference = 2 * math.pi * RADIUS_WHEEL_MM
     # Turns number of rotations needed to move distance
@@ -72,11 +90,13 @@ def move_distance(distance_mm, time_seconds, directions: bool = True):
 def turn_rotation(
     number_rotations: float,
     time_seconds: float,
-    directions: tuple[bool, bool] = (CLOCKWISE, CLOCKWISE),
+    directions: tuple[bool, bool] = FORWARD,
 ) -> None:
     """Moves specified motors a number of rotations in an amount of time in a direction."""
     # Defines a halfstep sequence
-    print(f"Directions: {directions}")
+
+    if number_rotations > time_seconds:
+        raise ValueError("Too many rotations! Use a larger time!")
 
     sequences = []
 
@@ -85,8 +105,6 @@ def turn_rotation(
             sequences.append(HALFSTEP_SEQUENCE)
         else:
             sequences.append(HALFSTEP_SEQUENCE[::-1])
-
-    print(f"Sequences: {sequences}")
 
     # Defines a number of steps
     num_steps = int(STEPS_PER_ROTATION * number_rotations)
@@ -103,9 +121,7 @@ def turn_rotation(
         for halfstep in range(num_halfsteps):
             # For each pin value
             for pin in range(num_pins):
-                print(
-                    f"pin: {MOTOR_LEFT_PINS[pin]}, sequence L: {sequences[0][halfstep][pin]}, sequence R: {sequences[1][halfstep][pin]}"
-                )
+                # Accesses exact pin values from each corresponding sequence
                 GPIO.output(MOTOR_LEFT_PINS[pin], sequences[0][halfstep][pin])  # type: ignore
                 GPIO.output(MOTOR_RIGHT_PINS[pin], sequences[1][halfstep][pin])  # type: ignore
                 time.sleep(delay)
