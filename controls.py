@@ -1,7 +1,7 @@
 import math
 import time
 from enum import Enum, auto
-from typing import Any
+from typing import Any, Literal
 
 import RPi.GPIO as GPIO
 
@@ -53,11 +53,11 @@ def main():
 
     time.sleep(1)
 
-    turn_rotation(3, 5, [COUNTER_CLOCKWISE, COUNTER_CLOCKWISE])
+    turn_rotation(3, 5, (COUNTER_CLOCKWISE, COUNTER_CLOCKWISE))
 
     time.sleep(1)
 
-    turn_rotation(1, 3, [CLOCKWISE, COUNTER_CLOCKWISE])
+    turn_rotation(1, 3, (CLOCKWISE, COUNTER_CLOCKWISE))
 
     GPIO.cleanup()  # type: ignore
 
@@ -72,10 +72,12 @@ def move_distance(distance_mm, time_seconds, directions: bool = True):
 def turn_rotation(
     number_rotations: float,
     time_seconds: float,
-    directions: list[bool] = [CLOCKWISE, CLOCKWISE],
+    directions: tuple[bool, bool] = (CLOCKWISE, CLOCKWISE),
 ) -> None:
     """Moves specified motors a number of rotations in an amount of time in a direction."""
     # Defines a halfstep sequence
+    print(f"Directions: {directions}")
+
     sequences = []
 
     for direction in directions:
@@ -84,7 +86,7 @@ def turn_rotation(
         else:
             sequences.append(HALFSTEP_SEQUENCE.reverse())
 
-    print(sequences)
+    print(f"Sequences: {sequences}")
 
     # Defines a number of steps
     num_steps = int(STEPS_PER_ROTATION * number_rotations)
