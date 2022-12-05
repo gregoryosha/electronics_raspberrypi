@@ -56,15 +56,19 @@ def main() -> None:
         GPIO.setup(pin, GPIO.OUT)  # type: ignore
         GPIO.output(pin, False)  # type: ignore
 
-    _engage_motors(1, 1)
+    move_forward()
 
     time.sleep(1)
 
-    _engage_motors(3, 5, Direction.FORWARD)
+    move_backward()
 
     time.sleep(1)
 
-    _engage_motors(1, 3, Direction.BACKWARD)
+    rotate_left()
+
+    time.sleep(1)
+
+    rotate_right()
 
     # Turns off any pins left on
     GPIO.cleanup()  # type: ignore
