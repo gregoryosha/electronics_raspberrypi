@@ -7,7 +7,7 @@ from RpiMotorLib import RpiMotorLib
 
 # CHANNEL = 7
 
-# GPIO.setmode(GPIO.BOARD)  # type: ignore
+GPIO.setmode(GPIO.BOARD)  # type: ignore
 # GPIO.setup(CHANNEL, GPIO.OUT)  # type: ignore
 
 MOTOR_LEFT_PINS = [11, 13, 15, 16]
