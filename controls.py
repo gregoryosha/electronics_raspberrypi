@@ -40,7 +40,7 @@ def main():
 
     time.sleep(1)
 
-    turn_rotation(3, 5)
+    turn_rotation(3, 5, False)
 
     time.sleep(1)
 
