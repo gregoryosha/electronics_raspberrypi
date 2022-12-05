@@ -84,6 +84,8 @@ def turn_rotation(
         else:
             sequences.append(HALFSTEP_SEQUENCE.reverse())
 
+    print(sequences)
+
     # Defines a number of steps
     num_steps = int(STEPS_PER_ROTATION * number_rotations)
 
@@ -99,6 +101,9 @@ def turn_rotation(
         for halfstep in range(num_halfsteps):
             # For each pin value
             for pin in range(num_pins):
+                print(
+                    f"pin: {MOTOR_LEFT_PINS[pin]}, sequence L: {sequences[0][halfstep][pin]}, sequence R: {sequences[1][halfstep][pin]}"
+                )
                 GPIO.output(MOTOR_LEFT_PINS[pin], sequences[0][halfstep][pin])  # type: ignore
                 GPIO.output(MOTOR_RIGHT_PINS[pin], sequences[1][halfstep][pin])  # type: ignore
                 time.sleep(delay)
