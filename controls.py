@@ -29,7 +29,8 @@ GPIO.setmode(GPIO.BOARD)  # type: ignore
 
 # MOTOR_LEFT_PINS = [15, 11, 13, 16]
 MOTOR_LEFT_PINS = [11, 13, 15, 16]
-MOTOR_RIGHT_PINS = [29, 31, 32, 33]
+# MOTOR_RIGHT_PINS = [29, 31, 32, 33]
+MOTOR_RIGHT_PINS = [32, 29, 31, 33]
 
 
 def main():
@@ -48,7 +49,7 @@ def main():
     # # call the function pass the arguments
     # mymotortest.motor_run(MOTOR_LEFT_PINS, 0.01, 20, False, True, "half", 0.05)
 
-    for pin in MOTOR_LEFT_PINS:
+    for pin in MOTOR_LEFT_PINS + MOTOR_RIGHT_PINS:
         GPIO.setup(pin, GPIO.OUT)
         GPIO.output(pin, 0)
 
@@ -103,6 +104,7 @@ def turn_rotation(
         for halfstep in range(num_halfsteps):
             for pin in range(num_pins):
                 GPIO.output(MOTOR_LEFT_PINS[pin], halfstep_seq[halfstep][pin])
+                GPIO.output(MOTOR_RIGHT_PINS[pin], halfstep_seq[halfstep][pin])
                 time.sleep(delay)
 
 
