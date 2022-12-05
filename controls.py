@@ -1,3 +1,4 @@
+import math
 import time
 from enum import Enum, auto
 from typing import Any
@@ -7,12 +8,27 @@ from RpiMotorLib import RpiMotorLib
 
 STEPS_PER_ROTATION = 50
 
+RADIUS_WHEEL_MM = 45
+
+# MM_PER_ROTATION = 282.74
+
 # CHANNEL = 7
 
 GPIO.setmode(GPIO.BOARD)  # type: ignore
 # GPIO.setup(CHANNEL, GPIO.OUT)  # type: ignore
 
-MOTOR_LEFT_PINS = [15, 11, 13, 16]
+
+# 3 1 2 4
+
+# 1 Y
+# 2 G
+# 3 R
+# 4 B
+
+# CURR ORDER: R, Y, G, B
+
+# MOTOR_LEFT_PINS = [15, 11, 13, 16]
+MOTOR_LEFT_PINS = [11, 13, 15, 16]
 MOTOR_RIGHT_PINS = [29, 31, 32, 33]
 
 
@@ -49,10 +65,18 @@ def main():
     GPIO.cleanup()  # type: ignore
 
 
+def move_distance(distance_mm, time_seconds, clockwise: bool = True):
+    # Calculates circumference of wheel
+    circumference = 2 * math.pi * RADIUS_WHEEL_MM
+    # Turns number of rotations needed to move distance
+    turn_rotation(distance_mm / circumference, time_seconds, clockwise)
+
+
 def turn_rotation(
     number_rotations: float, time_seconds: float, clockwise: bool = True
 ) -> None:
-
+    """Moves specified motors a number of rotations in an amount of time in a direction."""
+    # Defines a halfstep sequence
     halfstep_seq = [
         [1, 0, 0, 0],
         [1, 1, 0, 0],
@@ -63,10 +87,10 @@ def turn_rotation(
         [0, 0, 0, 1],
         [1, 0, 0, 1],
     ]
-
+    # Reverses if not clockwise
     if not clockwise:
         halfstep_seq.reverse()
-
+    # Defines a number of steps
     num_steps = int(STEPS_PER_ROTATION * number_rotations)
 
     num_halfsteps = len(halfstep_seq)
