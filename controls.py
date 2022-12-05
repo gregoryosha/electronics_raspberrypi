@@ -49,7 +49,9 @@ def main():
     GPIO.cleanup()  # type: ignore
 
 
-def turn_rotation(number_rotations: float, time_seconds: float) -> None:
+def turn_rotation(
+    number_rotations: float, time_seconds: float, clockwise: bool = True
+) -> None:
 
     halfstep_seq = [
         [1, 0, 0, 0],
@@ -61,6 +63,9 @@ def turn_rotation(number_rotations: float, time_seconds: float) -> None:
         [0, 0, 0, 1],
         [1, 0, 0, 1],
     ]
+
+    if not clockwise:
+        halfstep_seq.reverse()
 
     num_steps = int(STEPS_PER_ROTATION * number_rotations)
 
