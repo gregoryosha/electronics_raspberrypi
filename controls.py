@@ -6,8 +6,8 @@ from typing import Any
 import RPi.GPIO as GPIO
 
 # Defines motor spins
-CLOCKWISE = 1
-COUNTER_CLOCKWISE = -1
+CLOCKWISE = -1
+COUNTER_CLOCKWISE = 1
 
 # Enum for directions
 class Direction(Enum):
