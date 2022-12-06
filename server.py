@@ -4,6 +4,7 @@ from multiprocessing import Manager, Process, Value
 from flask import Flask, jsonify, render_template, request
 
 from controls import *
+import atexit
 
 app = Flask(__name__)
 # GPIO.setmode(GPIO.BOARD)
@@ -74,6 +75,10 @@ def record_loop(loop_on, global_motor_states):
             elif global_motor_states["left"] == 1:
                 print("turning left")
                 rotate_left()
+
+def exit_handler():
+    GPIO.cleanup() 
+    print ("exiting...")
 
 
 if __name__ == "__main__":
