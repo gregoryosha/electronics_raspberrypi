@@ -128,9 +128,7 @@ def _engage_motors(
     # For as many steps as specified:
     for _ in range(steps_count):
 
-        _move_step(direction)
-
-        time.sleep(delay)
+        _move_step(direction, delay)
         # # For each halfstep in sequence
         # for halfstep in range(HALFSTEPS_COUNT):
         #     # For each pin value
@@ -142,7 +140,7 @@ def _engage_motors(
         #         time.sleep(delay)
 
 
-def _move_step(direction: Direction):
+def _move_step(direction: Direction, delay: float = 0):
 
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
@@ -150,6 +148,8 @@ def _move_step(direction: Direction):
             # Assigns corresponding motor pins to sequence in specified direction
             GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
             GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
+            if delay:
+                time.sleep(delay)
 
 
 # ======== DEFAULT FUNCTIONS ======== #
