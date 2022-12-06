@@ -69,11 +69,11 @@ def main() -> None:
 
     rotate_right()
 
-    # Turns off any pins left on
-    GPIO.cleanup()  # type: ignore
+    cleanup()
 
 
 def pin_setup() -> None:
+    """Sets up board mode and motor pins."""
     # Sets board mode
     GPIO.setmode(GPIO.BOARD)  # type: ignore
     # Sets all motor pins to output and disengages them
@@ -82,9 +82,13 @@ def pin_setup() -> None:
         GPIO.output(pin, False)  # type: ignore
 
 
+def cleanup() -> None:
+    """Turns off any pins left on."""
+    GPIO.cleanup()  # type: ignore
+
+
 def rotate_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
     """Turns robot specified degrees in an amount of time in a direction."""
-
     # Raises error if not in rotational directions
     if direction not in ROTATIONAL_DIRECTIONS:
         raise ValueError("Invalid direction for rotational movement.")
@@ -99,7 +103,6 @@ def move_distance(
     distance_mm: float, time_seconds: float, direction: Direction = Direction.FORWARD
 ) -> None:
     """Turns motors a GROUND DISTANCE in an amount of time in a direction."""
-
     # Raises error if not in translational directions
     if direction not in TRANSLATIONAL_DIRECTIONS:
         raise ValueError("Invalid direction for translational movement.")
@@ -114,7 +117,6 @@ def _engage_motors(
     direction: Direction = Direction.FORWARD,
 ) -> None:
     """Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction."""
-
     # Throws error if motor would be turning too fast
     if number_rotations > time_seconds:
         raise ValueError("Too many rotations! Use a longer time!")
