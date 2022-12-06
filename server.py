@@ -1,5 +1,6 @@
 from flask import Flask, render_template, jsonify, request
 import time
+import atexit
 from controls import *
 from multiprocessing import Process, Manager, Value
 
@@ -69,7 +70,13 @@ def record_loop(loop_on, global_motor_states):
                 print('turning left')
                 rotate_left()
 
+def exit_handler():
+    print('exiting... ')
+    GPIO.cleanup() 
+
 if __name__ == "__main__":
+    atexit.register(exit_handler)
+
     pin_setup()
     manager = Manager()
     motor_states = manager.dict()
