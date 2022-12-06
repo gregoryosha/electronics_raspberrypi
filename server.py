@@ -67,9 +67,9 @@ def record_loop(loop_on, global_motor_states):
     while True:
         if loop_on.value == True:
             if (global_motor_states['forward'] == 1):
-                step_forward()
+                move_forward()
             elif (global_motor_states['backward'] == 1):
-                step_backward()
+                move_backward()
             elif (global_motor_states['right'] == 1):
                 rotate_right()
             elif (global_motor_states['left'] == 1):
