@@ -127,29 +127,20 @@ def _engage_motors(
 
     # For as many steps as specified:
     for _ in range(steps_count):
-
+        # Move one step in direction
         _move_step(direction, delay)
-        # # For each halfstep in sequence
-        # for halfstep in range(HALFSTEPS_COUNT):
-        #     # For each pin value
-        #     for pin in range(HALFSTEP_PINS_COUNT):
-        #         # Assigns corresponding motor pins to sequence in specified direction
-        #         GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
-        #         GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
-        #         # Sleeps for calculated delay
-        #         time.sleep(delay)
 
 
 def _move_step(direction: Direction, delay: float = 0.001):
-
+    """Moves motors one step in direction"""
+    # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
         for pin in range(HALFSTEP_PINS_COUNT):
             # Assigns corresponding motor pins to sequence in specified direction
             GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
             GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
-            if delay:
-                time.sleep(delay)
+            time.sleep(delay)
 
 
 # ======== DEFAULT FUNCTIONS ======== #
@@ -163,6 +154,16 @@ def step_forward():
 def step_backward():
 
     _move_step(Direction.BACKWARD)
+
+
+def step_left():
+
+    _move_step(Direction.LEFT)
+
+
+def step_right():
+
+    _move_step(Direction.RIGHT)
 
 
 def move_forward(distance_mm: float = 250, time_seconds: float = 3):
