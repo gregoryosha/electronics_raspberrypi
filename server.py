@@ -2,7 +2,6 @@ from flask import Flask, render_template, jsonify, request
 import time
 from controls import *
 from multiprocessing import Process, Manager, Value
-import RPi.GPIO as GPIO
 
 app = Flask(__name__)
 #GPIO.setmode(GPIO.BOARD)
@@ -52,15 +51,6 @@ def digital_write(pin_name, state_name):
         global_motor_states['right'] = 0
         global_motor_states['left'] = state
         return 'left'
-    # if state.upper() in ['1', 'ON', 'HIGH']:
-    #     #GPIO.setup(pin, GPIO.OUT)   # pinMode(pin_name, OUTPUT)
-    #     #GPIO.output(pin, GPIO.HIGH) # digitalWrite(pin_name, HIGH)
-    #     return 'Set pin {0} to HIGH'.format(pin_name)
-    # elif state.upper() in ['0', 'OFF', 'LOW']:
-    #     #GPIO.setup(pin, GPIO.OUT)   # pinMode(pin_name, OUTPUT)
-    #     #GPIO.output(pin, GPIO.LOW)  # digitalWrite(pin_name, LOW)
-    #     global_motor_states[pin] = GPIO.LOW
-    #     return 'Set pin {0} to LOW'.format(pin_name)
     return 'Something went wrong'
 
 def record_loop(loop_on, global_motor_states):

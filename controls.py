@@ -157,12 +157,12 @@ def _move_step(direction: Direction, delay: float = 0):
 
 def step_forward():
 
-    _move_step(Direction.FORWARD)
+    _move_step(Direction.FORWARD, 0.001)
 
 
 def step_backward():
 
-    _move_step(Direction.BACKWARD)
+    _move_step(Direction.BACKWARD, 0.001)
 
 
 def move_forward(distance_mm: float = 250, time_seconds: float = 3):
