@@ -131,7 +131,7 @@ def _engage_motors(
         _move_step(direction, delay)
 
 
-def _move_step(direction: Direction, delay: float = 0.001):
+def _move_step(direction: Direction, delay: float = 0.001) -> None:
     """Moves motors one step in direction"""
     # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
@@ -146,32 +146,32 @@ def _move_step(direction: Direction, delay: float = 0.001):
 # ======== DEFAULT FUNCTIONS ======== #
 
 
-def step_forward():
-
+def step_forward() -> None:
+    """Moves motors one step forward."""
     _move_step(Direction.FORWARD)
 
 
-def step_backward():
-
+def step_backward() -> None:
+    """Moves motors one step backward."""
     _move_step(Direction.BACKWARD)
 
 
-def step_left():
-
+def step_left() -> None:
+    """Moves motors one step left."""
     _move_step(Direction.LEFT)
 
 
-def step_right():
-
+def step_right() -> None:
+    """Moves motors one step right."""
     _move_step(Direction.RIGHT)
 
 
-def move_forward(distance_mm: float = 250, time_seconds: float = 3):
+def move_forward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.FORWARD)
 
 
-def move_backward(distance_mm: float = 250, time_seconds: float = 3):
+def move_backward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.BACKWARD)
 
