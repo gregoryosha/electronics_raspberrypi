@@ -146,24 +146,9 @@ def _move_step(direction: Direction, delay: float = 0.001) -> None:
 # ======== DEFAULT FUNCTIONS ======== #
 
 
-def step_forward() -> None:
-    """Moves motors one step forward."""
-    _move_step(Direction.FORWARD)
-
-
-def step_backward() -> None:
-    """Moves motors one step backward."""
-    _move_step(Direction.BACKWARD, 0.001)
-
-
-def step_left() -> None:
-    """Moves motors one step left."""
-    _move_step(Direction.LEFT)
-
-
-def step_right() -> None:
-    """Moves motors one step right."""
-    _move_step(Direction.RIGHT)
+def step(direction: Direction = Direction.FORWARD):
+    """Steps motors forward in specified direction"""
+    _move_step(direction)
 
 
 def move_forward(distance_mm: float = 250, time_seconds: float = 3) -> None:
