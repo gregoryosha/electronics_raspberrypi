@@ -16,6 +16,7 @@ ssh pi@current ip address
 
 home ip: 192.168.86.161
 School ip: 10.245.144.16
+10.245.156.225
 
 
 
