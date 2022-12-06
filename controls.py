@@ -138,6 +138,10 @@ def _engage_motors(
                 time.sleep(delay)
 
 
+def move_step(direction: Direction):
+    pass
+
+
 # ======== DEFAULT FUNCTIONS ======== #
 
 
