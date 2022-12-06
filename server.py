@@ -68,10 +68,10 @@ def record_loop(loop_on, global_motor_states):
         if loop_on.value == True:
             if (global_motor_states['forward'] == 1):
                 print('moving forward')
-                move_forward()
+                step_forward()
             elif (global_motor_states['backward'] == 1):
                 print('moving backward')
-                move_backward()
+                step_backward()
             elif (global_motor_states['right'] == 1):
                 print('turning right')
                 rotate_right()
