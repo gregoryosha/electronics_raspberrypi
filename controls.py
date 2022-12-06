@@ -6,15 +6,15 @@ from typing import Any
 import RPi.GPIO as GPIO
 
 # Defines motor spins
-CLOCKWISE = -1
-COUNTER_CLOCKWISE = 1
+CLOCKWISE = 1
+COUNTER_CLOCKWISE = -1
 
 # Enum for directions
 class Direction(Enum):
     FORWARD = (COUNTER_CLOCKWISE, COUNTER_CLOCKWISE)
     BACKWARD = (CLOCKWISE, CLOCKWISE)
-    RIGHT = (CLOCKWISE, COUNTER_CLOCKWISE)
-    LEFT = (COUNTER_CLOCKWISE, CLOCKWISE)
+    LEFT = (CLOCKWISE, COUNTER_CLOCKWISE)
+    RIGHT = (COUNTER_CLOCKWISE, CLOCKWISE)
 
 
 # Reference lists
@@ -52,7 +52,7 @@ MOTOR_RIGHT_PINS = [31, 29, 32, 33]
 
 
 def main() -> None:
-    """Runs main actions for testing sequence."""
+    """Runs actions for testing sequence."""
     pin_setup()
 
     move_forward()
@@ -63,11 +63,11 @@ def main() -> None:
 
     time.sleep(1)
 
-    rotate_left()
+    turn_left()
 
     time.sleep(1)
 
-    rotate_right()
+    turn_right()
 
     cleanup()
 
@@ -87,7 +87,7 @@ def cleanup() -> None:
     GPIO.cleanup()  # type: ignore
 
 
-def rotate_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
+def turn_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
     """Turns robot specified degrees in an amount of time in a direction."""
     # Raises error if not in rotational directions
     if direction not in ROTATIONAL_DIRECTIONS:
@@ -163,14 +163,14 @@ def move_backward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     move_distance(distance_mm, time_seconds, Direction.BACKWARD)
 
 
-def rotate_left(degrees: float = 90, time_seconds: float = 2) -> None:
+def turn_left(degrees: float = 90, time_seconds: float = 2) -> None:
     """Rotates robot to the left. Optional: Degrees, Time."""
-    rotate_degrees(degrees, time_seconds, Direction.LEFT)
+    turn_degrees(degrees, time_seconds, Direction.LEFT)
 
 
-def rotate_right(degrees: float = 90, time_seconds: float = 2) -> None:
+def turn_right(degrees: float = 90, time_seconds: float = 2) -> None:
     """Rotates robot to the right. Optional: Degrees, Time."""
-    rotate_degrees(degrees, time_seconds, Direction.RIGHT)
+    turn_degrees(degrees, time_seconds, Direction.RIGHT)
 
 
 # Runs main only from command line call instead of library call

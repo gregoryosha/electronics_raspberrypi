@@ -1,10 +1,11 @@
+import atexit
 import time
 from multiprocessing import Manager, Process, Value
 
 from flask import Flask, jsonify, render_template, request
 
-from controls import *
-import atexit
+import controls
+from controls import Direction
 
 app = Flask(__name__)
 # GPIO.setmode(GPIO.BOARD)
@@ -64,27 +65,28 @@ def record_loop(loop_on, global_motor_states):
     while True:
         if loop_on.value == True:
             if global_motor_states["forward"] == 1:
-                print("moving forward")
-                step(Direction.FORWARD)
+                print("Moving forward...")
+                controls.step(Direction.FORWARD)
             elif global_motor_states["backward"] == 1:
-                print("moving backward")
-                step(Direction.BACKWARD)
+                print("Moving backward...")
+                controls.step(Direction.BACKWARD)
             elif global_motor_states["right"] == 1:
-                print("turning right")
-                rotate_right()
+                print("Turning right...")
+                controls.turn_right()
             elif global_motor_states["left"] == 1:
-                print("turning left")
-                rotate_left()
+                print("Turning left...")
+                controls.turn_left()
+
 
 def exit_handler():
-    GPIO.cleanup() 
-    print ("exiting...")
+    controls.cleanup()
+    print("exiting...")
 
 
 if __name__ == "__main__":
     atexit.register(exit_handler)
 
-    pin_setup()
+    controls.pin_setup()
     manager = Manager()
     motor_states = manager.dict()
     global_motor_states = motor_states
