@@ -153,7 +153,7 @@ def step_forward() -> None:
 
 def step_backward() -> None:
     """Moves motors one step backward."""
-    _move_step(Direction.BACKWARD)
+    _move_step(Direction.BACKWARD, 0.001)
 
 
 def step_left() -> None:
