@@ -140,7 +140,7 @@ def _engage_motors(
         #         time.sleep(delay)
 
 
-def _move_step(direction: Direction, delay: float = 0):
+def _move_step(direction: Direction, delay: float = 0.001):
 
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
