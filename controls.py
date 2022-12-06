@@ -26,7 +26,7 @@ STEPS_PER_ROTATION = 50
 RADIUS_WHEEL_MM = 45
 WHEEL_CIRCUMFERENCE = 2 * math.pi * RADIUS_WHEEL_MM
 
-TURNING_RADIUS_MM = 85
+TURNING_RADIUS_MM = 90
 TURNING_CIRCUMFERENCE = 2 * math.pi * TURNING_RADIUS_MM
 
 # Half-step stepper motor sequence
@@ -40,6 +40,10 @@ HALFSTEP_SEQUENCE = [
     [0, 0, 0, 1],
     [1, 0, 0, 1],
 ]
+# Defines a number of halfsteps in sequence
+HALFSTEPS_COUNT = len(HALFSTEP_SEQUENCE)
+# Defines the number of pins used in sequence
+HALFSTEP_PINS_COUNT = len(HALFSTEP_SEQUENCE[0])
 
 # MOTOR_LEFT_PINS = [11, 13, 15, 16]
 MOTOR_LEFT_PINS = [15, 11, 13, 16]
@@ -117,32 +121,48 @@ def _engage_motors(
 
     # Defines a number of steps
     steps_count = int(STEPS_PER_ROTATION * number_rotations)
-    # Defines a number of halfsteps in sequence
-    halfsteps_count = len(HALFSTEP_SEQUENCE)
-    # Defines the number of pins used in sequence
-    pins_count = len(HALFSTEP_SEQUENCE[0])
 
     # Calculates a delay between pin activations
-    delay = time_seconds / (steps_count * halfsteps_count * pins_count)
+    delay = time_seconds / (steps_count * HALFSTEPS_COUNT * HALFSTEP_PINS_COUNT)
 
     # For as many steps as specified:
     for _ in range(steps_count):
-        # For each halfstep in sequence
-        for halfstep in range(halfsteps_count):
-            # For each pin value
-            for pin in range(pins_count):
-                # Assigns corresponding motor pins to sequence in specified direction
-                GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
-                GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
-                # Sleeps for calculated delay
-                time.sleep(delay)
+
+        _move_step(direction)
+
+        time.sleep(delay)
+        # # For each halfstep in sequence
+        # for halfstep in range(HALFSTEPS_COUNT):
+        #     # For each pin value
+        #     for pin in range(HALFSTEP_PINS_COUNT):
+        #         # Assigns corresponding motor pins to sequence in specified direction
+        #         GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
+        #         GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
+        #         # Sleeps for calculated delay
+        #         time.sleep(delay)
 
 
-def move_step(direction: Direction):
-    pass
+def _move_step(direction: Direction):
+
+    for halfstep in range(HALFSTEPS_COUNT):
+        # For each pin value
+        for pin in range(HALFSTEP_PINS_COUNT):
+            # Assigns corresponding motor pins to sequence in specified direction
+            GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
+            GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
 
 
 # ======== DEFAULT FUNCTIONS ======== #
+
+
+def step_forward():
+
+    _move_step(Direction.FORWARD)
+
+
+def step_backward():
+
+    _move_step(Direction.BACKWARD)
 
 
 def move_forward(distance_mm: float = 250, time_seconds: float = 3):
