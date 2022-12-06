@@ -21,3 +21,6 @@ for i in range(3000):
       GPIO.output(control_pins[pin], halfstep_seq[halfstep][pin])
     time.sleep(0.001)
 GPIO.cleanup()
+
+if __name__ == "__main__":
+    main()
