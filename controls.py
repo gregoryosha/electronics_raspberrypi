@@ -49,12 +49,7 @@ MOTOR_RIGHT_PINS = [31, 29, 32, 33]
 
 def main() -> None:
     """Runs main actions for testing sequence."""
-    # Sets board mode
-    GPIO.setmode(GPIO.BOARD)  # type: ignore
-    # Sets all motor pins to output and disengages them
-    for pin in MOTOR_LEFT_PINS + MOTOR_RIGHT_PINS:
-        GPIO.setup(pin, GPIO.OUT)  # type: ignore
-        GPIO.output(pin, False)  # type: ignore
+    pin_setup()
 
     move_forward()
 
@@ -72,6 +67,15 @@ def main() -> None:
 
     # Turns off any pins left on
     GPIO.cleanup()  # type: ignore
+
+
+def pin_setup() -> None:
+    # Sets board mode
+    GPIO.setmode(GPIO.BOARD)  # type: ignore
+    # Sets all motor pins to output and disengages them
+    for pin in MOTOR_LEFT_PINS + MOTOR_RIGHT_PINS:
+        GPIO.setup(pin, GPIO.OUT)  # type: ignore
+        GPIO.output(pin, False)  # type: ignore
 
 
 def rotate_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
