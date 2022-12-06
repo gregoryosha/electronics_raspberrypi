@@ -18,12 +18,17 @@ function led_off() {
 
 
 window.addEventListener('keydown', (press)=>{
-  console.log(press)
-  if (press.key == 'ArrowRight') {
-    sendMessage('40/HIGH');
+  if (press.key == 'ArrowUp') {
+    sendMessage('1/HIGH');
+  }
+  else if (press.key == 'ArrowDown') {
+    sendMessage('2/HIGH');
+  }
+  else if (press.key == 'ArrowRight') {
+    sendMessage('3/HIGH');
   }
   else if (press.key == 'ArrowLeft') {
-    sendMessage('38/HIGH');
+    sendMessage('4/HIGH');
   }
   // else if (press.key == 'd') {
   //   sendMessage('right');
@@ -34,11 +39,17 @@ window.addEventListener('keydown', (press)=>{
 })
 
 window.addEventListener('keyup', (press)=>{
-  if (press.key == 'ArrowRight') {
-    sendMessage('40/LOW');
+  if (press.key == 'ArrowUp') {
+    sendMessage('1/LOW');
+  }
+  else if (press.key == 'ArrowDown') {
+    sendMessage('2/LOW');
+  }
+  else if (press.key == 'ArrowRight') {
+    sendMessage('3/LOW');
   }
   else if (press.key == 'ArrowLeft') {
-    sendMessage('38/LOW');
+    sendMessage('4/LOW');
   }
   // }
   // else if (press.key == 'a') {
