@@ -127,50 +127,36 @@ def _engage_motors(
 
     # For as many steps as specified:
     for _ in range(steps_count):
-
+        # Move one step in direction
         _move_step(direction, delay)
-        # # For each halfstep in sequence
-        # for halfstep in range(HALFSTEPS_COUNT):
-        #     # For each pin value
-        #     for pin in range(HALFSTEP_PINS_COUNT):
-        #         # Assigns corresponding motor pins to sequence in specified direction
-        #         GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
-        #         GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
-        #         # Sleeps for calculated delay
-        #         time.sleep(delay)
 
 
-def _move_step(direction: Direction, delay: float = 0.001):
-
+def _move_step(direction: Direction, delay: float = 0.001) -> None:
+    """Moves motors one step in direction"""
+    # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
         for pin in range(HALFSTEP_PINS_COUNT):
             # Assigns corresponding motor pins to sequence in specified direction
             GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
             GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
-            if delay:
-                time.sleep(delay)
+            time.sleep(delay)
 
 
 # ======== DEFAULT FUNCTIONS ======== #
 
 
-def step_forward():
-
-    _move_step(Direction.FORWARD, 0.001)
-
-
-def step_backward():
-
-    _move_step(Direction.BACKWARD, 0.001)
+def step(direction: Direction = Direction.FORWARD):
+    """Steps motors forward in specified direction"""
+    _move_step(direction)
 
 
-def move_forward(distance_mm: float = 250, time_seconds: float = 3):
+def move_forward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.FORWARD)
 
 
-def move_backward(distance_mm: float = 250, time_seconds: float = 3):
+def move_backward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.BACKWARD)
 
