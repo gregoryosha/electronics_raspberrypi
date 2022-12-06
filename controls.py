@@ -60,7 +60,7 @@ def main() -> None:
 
     time.sleep(1)
 
-    move_backward()
+    move_backward(200, 1)
 
     time.sleep(1)
 
