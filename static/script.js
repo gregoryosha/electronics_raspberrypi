@@ -3,7 +3,7 @@ function print_out() {
   alert("printing!");
 }
 
-function sendMessage(message){
+function sendMessage(message) {
   $.get(`/digital/write/${message}`);
 }
 
@@ -16,8 +16,7 @@ function led_off() {
 }
 
 
-
-window.addEventListener('keydown', (press)=>{
+window.addEventListener('keydown', (press) => {
   if (press.key == 'ArrowUp') {
     sendMessage('1/HIGH');
   }
@@ -30,15 +29,10 @@ window.addEventListener('keydown', (press)=>{
   else if (press.key == 'ArrowLeft') {
     sendMessage('4/HIGH');
   }
-  // else if (press.key == 'd') {
-  //   sendMessage('right');
-  // }
-  // else if (press.key == 's') {
-  //   sendMessage('down');
-  // }
 })
 
-window.addEventListener('keyup', (press)=>{
+
+window.addEventListener('keyup', (press) => {
   if (press.key == 'ArrowUp') {
     sendMessage('1/LOW');
   }
@@ -51,14 +45,4 @@ window.addEventListener('keyup', (press)=>{
   else if (press.key == 'ArrowLeft') {
     sendMessage('4/LOW');
   }
-  // }
-  // else if (press.key == 'a') {
-  //   sendMessage('stop');
-  // }
-  // else if (press.key == 'd') {
-  //   sendMessage('stop');
-  // }
-  // else if (press.key == 's') {
-  //   sendMessage('stop');
-  // }
 })

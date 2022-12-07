@@ -1,9 +1,26 @@
+#!/usr/bin/env python
+"""
+Provides control for a dual-stepper-motor setup. Allows for two-directional 
+movement and rotation at varying speeds. Allows for use of `move_forward()`, 
+`move_backward()`, `turn_left()`, `turn_right()`, as well as other helpful 
+functions.
+"""
+
 import math
 import time
 from enum import Enum
 from typing import Any
 
 import RPi.GPIO as GPIO
+
+__author__ = "Ben Kraft"
+__copyright__ = "None"
+__credits__ = "Ben Kraft"
+__license__ = "MIT"
+__version__ = "1.0"
+__maintainer__ = "Ben Kraft"
+__email__ = "benjamin.kraft@tufts.edu"
+__status__ = "Prototype"
 
 # Defines motor spins
 CLOCKWISE = 1
@@ -74,6 +91,7 @@ def main() -> None:
 
 def pin_setup() -> None:
     """Sets up board mode and motor pins."""
+
     # Sets board mode
     GPIO.setmode(GPIO.BOARD)  # type: ignore
     # Sets all motor pins to output and disengages them
@@ -89,6 +107,7 @@ def cleanup() -> None:
 
 def turn_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
     """Turns robot specified degrees in an amount of time in a direction."""
+
     # Raises error if not in rotational directions
     if direction not in ROTATIONAL_DIRECTIONS:
         raise ValueError("Invalid direction for rotational movement.")
@@ -103,6 +122,7 @@ def move_distance(
     distance_mm: float, time_seconds: float, direction: Direction = Direction.FORWARD
 ) -> None:
     """Turns motors a GROUND DISTANCE in an amount of time in a direction."""
+
     # Raises error if not in translational directions
     if direction not in TRANSLATIONAL_DIRECTIONS:
         raise ValueError("Invalid direction for translational movement.")
@@ -117,6 +137,7 @@ def _engage_motors(
     direction: Direction = Direction.FORWARD,
 ) -> None:
     """Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction."""
+
     # Throws error if motor would be turning too fast
     if number_rotations > time_seconds:
         raise ValueError("Too many rotations! Use a longer time!")
@@ -135,6 +156,7 @@ def _engage_motors(
 
 def _move_step(direction: Direction, delay: float = 0.001) -> None:
     """Moves motors one step in direction"""
+
     # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value

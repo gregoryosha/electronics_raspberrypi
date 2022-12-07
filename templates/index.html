@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-    <title>Flask Demo</title>
-  </head>
-  <body>
-    <h2>Demo External JavaScript</h2>
-    <button onclick="led_on()">Turn on led</button>
-    <button onclick="led_off()">Turn off led</button>
-    <p id="demo"></p>
-    </body>
+
+<head>
+  <meta charset="utf-8">
+  <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <title>Flask Demo</title>
+</head>
+
+<body>
+  <h2>Demo External JavaScript</h2>
+  <button onclick="led_on()">Turn on led</button>
+  <button onclick="led_off()">Turn off led</button>
+  <p id="demo"></p>
+</body>
+
 </html>

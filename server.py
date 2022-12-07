@@ -1,3 +1,9 @@
+#!/usr/bin/env python
+"""
+Provides server interactivity with motor controls. Communicates with running 
+server to execute controls commands via `Flask`.
+"""
+
 import atexit
 import time
 from multiprocessing import Manager, Process, Value
@@ -8,13 +14,18 @@ from flask import Flask, render_template
 import controls
 from controls import Direction
 
+__author__ = "Greg Osha"
+__copyright__ = "None"
+__credits__ = ["Greg Osha", "Ben Kraft"]
+__license__ = "MIT"
+__version__ = "1.0"
+__maintainer__ = "N/A"
+__email__ = "N/A"
+__status__ = "Prototype"
+
 DIRECTIONS = [Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT]
 
 app = Flask(__name__)
-# GPIO.setmode(GPIO.BOARD)
-
-# GPIO.setup(40, GPIO.OUT)
-# GPIO.setup(38, GPIO.OUT)
 
 global_motor_states = {}
 
@@ -44,13 +55,13 @@ def digital_write(direction_id: str, value: str) -> str:
     VALUE_NAMES = ["LOW", "HIGH"]
     # Throws error for invalid value
     if value not in VALUE_NAMES:
-        raise ValueError("Inappropriate value, use LOW or HIGH.")
+        raise ValueError("Inappropriate value, use 'LOW' or 'HIGH'.")
     # Converts value to integer
     int_value = VALUE_NAMES.index(value)
 
     # For every direction:
     for i, direction in enumerate(DIRECTIONS):
-        # Set dictionary value of direction to value, and all others to 0
+        # Set dictionary value of specified direction to value, and all others to 0
         global_motor_states[direction] = int_value if (i == direction_index) else 0
     # Return the specified direction name
     return DIRECTIONS[direction_index].name
@@ -73,9 +84,10 @@ def record_loop(loop_on, global_motor_states: dict[Direction, int]) -> NoReturn:
                 controls.turn_left()
 
 
-def exit_handler():
+def exit_handler() -> None:
+    # Cleans up GPIO pins
     controls.cleanup()
-    print("exiting...")
+    print("Exiting...")
 
 
 if __name__ == "__main__":
