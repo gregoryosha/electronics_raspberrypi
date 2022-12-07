@@ -1,11 +1,14 @@
 import atexit
 import time
 from multiprocessing import Manager, Process, Value
+from typing import NoReturn
 
-from flask import Flask, jsonify, render_template, request
+from flask import Flask, render_template
 
 import controls
 from controls import Direction
+
+DIRECTIONS = [Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT]
 
 app = Flask(__name__)
 # GPIO.setmode(GPIO.BOARD)
@@ -27,53 +30,45 @@ def print_out():
     return "success!"
 
 
-@app.route("/digital/write/<pin_name>/<state_name>")
-def digital_write(pin_name, state_name):
-    pin = int(pin_name)
-    if state_name == "HIGH":
-        state = 1
-    elif state_name == "LOW":
-        state = 0
-    if pin == 1:
-        global_motor_states["forward"] = state
-        global_motor_states["backward"] = 0
-        global_motor_states["right"] = 0
-        global_motor_states["left"] = 0
-        return "forward"
-    elif pin == 2:
-        global_motor_states["forward"] = 0
-        global_motor_states["backward"] = state
-        global_motor_states["right"] = 0
-        global_motor_states["left"] = 0
-        return "backward"
-    elif pin == 3:
-        global_motor_states["forward"] = 0
-        global_motor_states["backward"] = 0
-        global_motor_states["right"] = state
-        global_motor_states["left"] = 0
-        return "right"
-    elif pin == 4:
-        global_motor_states["forward"] = 0
-        global_motor_states["backward"] = 0
-        global_motor_states["right"] = 0
-        global_motor_states["left"] = state
-        return "left"
-    return "Something went wrong"
+@app.route("/digital/write/<direction_id>/<value>")
+def digital_write(direction_id: str, value: str) -> str:
+    """Allows for flask writing of states."""
+
+    # Assigns corrected direction index
+    direction_index = int(direction_id) - 1
+    # Throws error for invalid direction ID
+    if direction_index not in range(len(DIRECTIONS)):
+        raise ValueError("Inappropriate direction id, use between 1 and 4.")
+
+    # Defines value names
+    VALUE_NAMES = ["LOW", "HIGH"]
+    # Throws error for invalid value
+    if value not in VALUE_NAMES:
+        raise ValueError("Inappropriate value, use LOW or HIGH.")
+    # Converts value to integer
+    int_value = VALUE_NAMES.index(value)
+
+    # For every direction:
+    for i, direction in enumerate(DIRECTIONS):
+        # Set dictionary value of direction to value, and all others to 0
+        global_motor_states[direction] = int_value if (i == direction_index) else 0
+    # Return the specified direction name
+    return DIRECTIONS[direction_index].name
 
 
-def record_loop(loop_on, global_motor_states):
+def record_loop(loop_on, global_motor_states: dict[Direction, int]) -> NoReturn:
     while True:
-        if loop_on.value == True:
-            if global_motor_states["forward"] == 1:
+        if loop_on.value:
+            if global_motor_states[Direction.FORWARD]:
                 print("Moving forward...")
                 controls.step(Direction.FORWARD)
-            elif global_motor_states["backward"] == 1:
+            elif global_motor_states[Direction.BACKWARD]:
                 print("Moving backward...")
                 controls.step(Direction.BACKWARD)
-            elif global_motor_states["right"] == 1:
+            elif global_motor_states[Direction.RIGHT]:
                 print("Turning right...")
                 controls.turn_right()
-            elif global_motor_states["left"] == 1:
+            elif global_motor_states[Direction.LEFT]:
                 print("Turning left...")
                 controls.turn_left()
 
@@ -90,10 +85,10 @@ if __name__ == "__main__":
     manager = Manager()
     motor_states = manager.dict()
     global_motor_states = motor_states
-    motor_states["forward"] = 0
-    motor_states["backward"] = 0
-    motor_states["right"] = 0
-    motor_states["left"] = 0
+
+    for direction in DIRECTIONS:
+        motor_states[direction] = 0
+
     recording_on = Value("b", True)
     p = Process(
         target=record_loop,
