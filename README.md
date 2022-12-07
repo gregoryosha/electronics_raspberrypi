@@ -19,7 +19,6 @@ School ip: 10.245.144.16
 10.245.156.225
 
 
-
 _______Useful Raspi commands__________
 To start hosting the flask server:
     export FLASK_APP=server.py
@@ -27,3 +26,8 @@ To start hosting the flask server:
 raspi-config
 ifconfig
 ping
+
+
+This project combines motor control with server control, using Flask to send
+and receieve requests, and a custom stepper motor control to execute it on the
+robot.
