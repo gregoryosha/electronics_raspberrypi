@@ -73,17 +73,11 @@ def main() -> None:
     pin_setup()
 
     move_forward()
-
     time.sleep(1)
-
     move_backward(200, 1)
-
     time.sleep(1)
-
     turn_left()
-
     time.sleep(1)
-
     turn_right()
 
     cleanup()
@@ -132,9 +126,7 @@ def move_distance(
 
 
 def _engage_motors(
-    number_rotations: float,
-    time_seconds: float,
-    direction: Direction = Direction.FORWARD,
+    number_rotations: float, time_seconds: float, direction: Direction
 ) -> None:
     """Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction."""
 
@@ -146,7 +138,7 @@ def _engage_motors(
     steps_count = int(STEPS_PER_ROTATION * number_rotations)
 
     # Calculates a delay between pin activations
-    delay = time_seconds / (steps_count * HALFSTEPS_COUNT * HALFSTEP_PINS_COUNT)
+    delay = time_seconds / steps_count / HALFSTEPS_COUNT / HALFSTEP_PINS_COUNT
 
     # For as many steps as specified:
     for _ in range(steps_count):

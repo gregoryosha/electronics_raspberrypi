@@ -62,7 +62,7 @@ def digital_write(direction_id: str, value: str) -> str:
     # For every direction:
     for i, direction in enumerate(DIRECTIONS):
         # Set dictionary value of specified direction to value, and all others to 0
-        global_motor_states[direction] = int_value if (i == direction_index) else 0
+        global_motor_states[direction] = int_value if i == direction_index else 0
     # Return the specified direction name
     return DIRECTIONS[direction_index].name
 
