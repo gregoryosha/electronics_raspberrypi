@@ -28,6 +28,17 @@ ifconfig
 ping
 
 
+_________Install OpenCV on RasPi_________________
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo pip3 install opencv-python
+sudo apt-get install libopencv-dev python3-opencv
+
+sudo pip3 install -U numpy
+
+
+
 This project combines motor control with server control, using Flask to send
 and receieve requests, and a custom stepper motor control to execute it on the
 robot.
