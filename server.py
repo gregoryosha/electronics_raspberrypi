@@ -9,7 +9,9 @@ import time
 from multiprocessing import Manager, Process, Value
 from typing import NoReturn
 
-from flask import Flask, render_template
+from flask import Flask, render_template, Response
+
+import cv2
 
 import controls
 from controls import Direction
@@ -26,19 +28,29 @@ __status__ = "Prototype"
 DIRECTIONS = (Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT)
 
 app = Flask(__name__)
+camera = cv2.VideoCapture(0) #creates a local camera
 
 global_motor_states = {}
 
+
+def gen_frames():
+    while True:
+        success, frame = camera.read()
+        if not success:
+            break
+        else:
+            ret, buffer = cv2.imencode('.jpg', frame)
+            frame = buffer.tobytes()
+            yield(b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-
-@app.route("/printout")
-def print_out():
-    print("Successfuly get request!")
-    return "success!"
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 @app.route("/digital/write/<direction_id>/<value>")

@@ -9,10 +9,13 @@
 </head>
 
 <body>
-  <h2>Demo External JavaScript</h2>
-  <button onclick="led_on()">Turn on led</button>
-  <button onclick="led_off()">Turn off led</button>
-  <p id="demo"></p>
+  <div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h3 class="mt-5">Live Streaming</h3>
+            <img src="{{ url_for('video_feed') }}" width="100%">
+        </div>
+    </div>
 </body>
 
 </html>
