@@ -35,8 +35,8 @@ class Direction(Enum):
 
 
 # Reference lists
-TRANSLATIONAL_DIRECTIONS = [Direction.FORWARD, Direction.BACKWARD]
-ROTATIONAL_DIRECTIONS = [Direction.LEFT, Direction.RIGHT]
+TRANSLATIONAL_DIRECTIONS = (Direction.FORWARD, Direction.BACKWARD)
+ROTATIONAL_DIRECTIONS = (Direction.LEFT, Direction.RIGHT)
 
 STEPS_PER_ROTATION = 50
 
@@ -47,16 +47,16 @@ TURNING_RADIUS_MM = 88
 TURNING_CIRCUMFERENCE = 2 * math.pi * TURNING_RADIUS_MM
 
 # Half-step stepper motor sequence
-HALFSTEP_SEQUENCE = [
-    [1, 0, 0, 0],
-    [1, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 1, 0],
-    [0, 0, 1, 0],
-    [0, 0, 1, 1],
-    [0, 0, 0, 1],
-    [1, 0, 0, 1],
-]
+HALFSTEP_SEQUENCE = (
+    (1, 0, 0, 0),
+    (1, 1, 0, 0),
+    (0, 1, 0, 0),
+    (0, 1, 1, 0),
+    (0, 0, 1, 0),
+    (0, 0, 1, 1),
+    (0, 0, 0, 1),
+    (1, 0, 0, 1),
+)
 # Defines a number of halfsteps in sequence
 HALFSTEPS_COUNT = len(HALFSTEP_SEQUENCE)
 # Defines the number of pins used in sequence

@@ -23,7 +23,7 @@ __maintainer__ = "N/A"
 __email__ = "N/A"
 __status__ = "Prototype"
 
-DIRECTIONS = [Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT]
+DIRECTIONS = (Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT)
 
 app = Flask(__name__)
 
@@ -52,7 +52,7 @@ def digital_write(direction_id: str, value: str) -> str:
         raise ValueError("Inappropriate direction id, use between 1 and 4.")
 
     # Defines value names
-    VALUE_NAMES = ["LOW", "HIGH"]
+    VALUE_NAMES = ("LOW", "HIGH")
     # Throws error for invalid value
     if value not in VALUE_NAMES:
         raise ValueError("Inappropriate value, use 'LOW' or 'HIGH'.")
