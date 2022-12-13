@@ -1,9 +1,26 @@
+#!/usr/bin/env python
+"""
+Provides control for a dual-stepper-motor setup. Allows for two-directional 
+movement and rotation at varying speeds. Allows for use of `move_forward()`, 
+`move_backward()`, `turn_left()`, `turn_right()`, as well as other helpful 
+functions.
+"""
+
 import math
 import time
 from enum import Enum
 from typing import Any
 
 import RPi.GPIO as GPIO
+
+__author__ = "Ben Kraft"
+__copyright__ = "None"
+__credits__ = "Ben Kraft"
+__license__ = "MIT"
+__version__ = "1.0"
+__maintainer__ = "Ben Kraft"
+__email__ = "benjamin.kraft@tufts.edu"
+__status__ = "Prototype"
 
 # Defines motor spins
 CLOCKWISE = 1
@@ -18,8 +35,8 @@ class Direction(Enum):
 
 
 # Reference lists
-TRANSLATIONAL_DIRECTIONS = [Direction.FORWARD, Direction.BACKWARD]
-ROTATIONAL_DIRECTIONS = [Direction.LEFT, Direction.RIGHT]
+TRANSLATIONAL_DIRECTIONS = (Direction.FORWARD, Direction.BACKWARD)
+ROTATIONAL_DIRECTIONS = (Direction.LEFT, Direction.RIGHT)
 
 STEPS_PER_ROTATION = 50
 
@@ -30,16 +47,16 @@ TURNING_RADIUS_MM = 88
 TURNING_CIRCUMFERENCE = 2 * math.pi * TURNING_RADIUS_MM
 
 # Half-step stepper motor sequence
-HALFSTEP_SEQUENCE = [
-    [1, 0, 0, 0],
-    [1, 1, 0, 0],
-    [0, 1, 0, 0],
-    [0, 1, 1, 0],
-    [0, 0, 1, 0],
-    [0, 0, 1, 1],
-    [0, 0, 0, 1],
-    [1, 0, 0, 1],
-]
+HALFSTEP_SEQUENCE = (
+    (1, 0, 0, 0),
+    (1, 1, 0, 0),
+    (0, 1, 0, 0),
+    (0, 1, 1, 0),
+    (0, 0, 1, 0),
+    (0, 0, 1, 1),
+    (0, 0, 0, 1),
+    (1, 0, 0, 1),
+)
 # Defines a number of halfsteps in sequence
 HALFSTEPS_COUNT = len(HALFSTEP_SEQUENCE)
 # Defines the number of pins used in sequence
@@ -52,28 +69,23 @@ MOTOR_RIGHT_PINS = [31, 29, 32, 33]
 
 
 def main() -> None:
-    """Runs main actions for testing sequence."""
+    """Runs actions for testing sequence."""
     pin_setup()
 
     move_forward()
-
     time.sleep(1)
-
     move_backward(200, 1)
-
     time.sleep(1)
-
-    rotate_left()
-
+    turn_left()
     time.sleep(1)
+    turn_right()
 
-    rotate_right()
-
-    # Turns off any pins left on
-    GPIO.cleanup()  # type: ignore
+    cleanup()
 
 
 def pin_setup() -> None:
+    """Sets up board mode and motor pins."""
+
     # Sets board mode
     GPIO.setmode(GPIO.BOARD)  # type: ignore
     # Sets all motor pins to output and disengages them
@@ -82,7 +94,12 @@ def pin_setup() -> None:
         GPIO.output(pin, False)  # type: ignore
 
 
-def rotate_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
+def cleanup() -> None:
+    """Turns off any pins left on."""
+    GPIO.cleanup()  # type: ignore
+
+
+def turn_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
     """Turns robot specified degrees in an amount of time in a direction."""
 
     # Raises error if not in rotational directions
@@ -109,9 +126,7 @@ def move_distance(
 
 
 def _engage_motors(
-    number_rotations: float,
-    time_seconds: float,
-    direction: Direction = Direction.FORWARD,
+    number_rotations: float, time_seconds: float, direction: Direction
 ) -> None:
     """Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction."""
 
@@ -123,66 +138,53 @@ def _engage_motors(
     steps_count = int(STEPS_PER_ROTATION * number_rotations)
 
     # Calculates a delay between pin activations
-    delay = time_seconds / (steps_count * HALFSTEPS_COUNT * HALFSTEP_PINS_COUNT)
+    delay = time_seconds / steps_count / HALFSTEPS_COUNT / HALFSTEP_PINS_COUNT
 
     # For as many steps as specified:
     for _ in range(steps_count):
-
+        # Move one step in direction
         _move_step(direction, delay)
-        # # For each halfstep in sequence
-        # for halfstep in range(HALFSTEPS_COUNT):
-        #     # For each pin value
-        #     for pin in range(HALFSTEP_PINS_COUNT):
-        #         # Assigns corresponding motor pins to sequence in specified direction
-        #         GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
-        #         GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
-        #         # Sleeps for calculated delay
-        #         time.sleep(delay)
 
 
-def _move_step(direction: Direction, delay: float = 0):
+def _move_step(direction: Direction, delay: float = 0.001) -> None:
+    """Moves motors one step in direction"""
 
+    # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
         for pin in range(HALFSTEP_PINS_COUNT):
             # Assigns corresponding motor pins to sequence in specified direction
             GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
             GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
-            if delay:
-                time.sleep(delay)
+            time.sleep(delay)
 
 
 # ======== DEFAULT FUNCTIONS ======== #
 
 
-def step_forward():
-
-    _move_step(Direction.FORWARD)
-
-
-def step_backward():
-
-    _move_step(Direction.BACKWARD)
+def step(direction: Direction = Direction.FORWARD):
+    """Steps motors forward in specified direction"""
+    _move_step(direction)
 
 
-def move_forward(distance_mm: float = 250, time_seconds: float = 3):
+def move_forward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.FORWARD)
 
 
-def move_backward(distance_mm: float = 250, time_seconds: float = 3):
+def move_backward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
     move_distance(distance_mm, time_seconds, Direction.BACKWARD)
 
 
-def rotate_left(degrees: float = 90, time_seconds: float = 2) -> None:
+def turn_left(degrees: float = 90, time_seconds: float = 2) -> None:
     """Rotates robot to the left. Optional: Degrees, Time."""
-    rotate_degrees(degrees, time_seconds, Direction.LEFT)
+    turn_degrees(degrees, time_seconds, Direction.LEFT)
 
 
-def rotate_right(degrees: float = 90, time_seconds: float = 2) -> None:
+def turn_right(degrees: float = 90, time_seconds: float = 2) -> None:
     """Rotates robot to the right. Optional: Degrees, Time."""
-    rotate_degrees(degrees, time_seconds, Direction.RIGHT)
+    turn_degrees(degrees, time_seconds, Direction.RIGHT)
 
 
 # Runs main only from command line call instead of library call
