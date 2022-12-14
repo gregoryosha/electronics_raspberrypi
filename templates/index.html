@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='/main.css') }}">
   <title>Flask Demo</title>
 </head>
 
@@ -13,7 +15,7 @@
     <div class="row">
         <div class="col-lg-8  offset-lg-2">
             <h3 class="mt-5">Live Streaming</h3>
-            <img src="{{ url_for('video_feed') }}" height="100%">
+            <img src="{{ url_for('video_feed') }}" width="80%">
         </div>
     </div>
 </body>
