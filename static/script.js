@@ -4,15 +4,19 @@ function print_out() {
 }
 
 function sendMessage(message) {
+  if(message =='up'){
+    message = '1/HIGH';
+  }
+  else if(message = 'down') {
+    message = '2/HIGH';
+  }
+  else if(message = 'right') {
+    message = '3/HIGH';
+  }
+  else if(message = 'left') {
+    message = '4/HIGH'
+  }
   $.get(`/digital/write/${message}`);
-}
-
-function led_on() {
-  $.get("/digital/write/40/HIGH");
-}
-
-function led_off() {
-  $.get("/digital/write/40/LOW");
 }
 
 let pressed = {
@@ -22,6 +26,7 @@ let pressed = {
   left:false
 }
 
+//Arrow key up and down events
 window.addEventListener('keydown', (press) => {
   if (press.key == 'ArrowUp' && !pressed.up) {
     sendMessage('1/HIGH');
@@ -59,6 +64,36 @@ window.addEventListener('keyup', (press) => {
     sendMessage('4/LOW');
     pressed.left = false;
   }
+})
+
+
+//on click functionality
+document.body.addEventListener("click", function (e) {
+  if (e.target && e.target.nodeName == "A") {
+    e.preventDefault();
+  }
+});
+
+function touchStartHandler(event) {
+  var direction = event.target.dataset.direction;
+  console.log('Touch Start :: ' + direction)
+  sendMessage(direction);
+}
+
+function touchEndHandler(event) {
+  var direction = event.target.dataset.direction;
+  console.log('Touch End :: ' + direction)
+  sendMessage('1/LOW');
+}
+
+
+document.querySelectorAll('.control').forEach(item => {
+  item.addEventListener('touchstart', touchStartHandler);
+  
+})
+
+document.querySelectorAll('.control').forEach(item => {
+  item.addEventListener('touchend', touchEndHandler)
 })
 
 
