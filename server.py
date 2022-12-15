@@ -90,10 +90,10 @@ def record_loop(loop_on, global_motor_states: dict[Direction, int]) -> NoReturn:
                 controls.step(Direction.BACKWARD)
             elif global_motor_states[Direction.RIGHT]:
                 print("Turning right...")
-                controls.turn_right()
+                controls.turn_degrees(15, 1, Direction.RIGHT)
             elif global_motor_states[Direction.LEFT]:
                 print("Turning left...")
-                controls.turn_left()
+                controls.turn_degrees(15, 1, Direction.LEFT)
 
 
 def exit_handler() -> None:
