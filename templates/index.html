@@ -2,20 +2,26 @@
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
-  <title>Flask Demo</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/main.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/entireframework.min.css') }}">
+  <title>Flask Robot Controller</title>
 </head>
 
 <body>
   <div class="container">
-    <div class="row">
-        <div class="col-lg-8  offset-lg-2">
-            <h3 class="mt-5">Live Streaming</h3>
-            <img src="{{ url_for('video_feed') }}" width="100%">
-        </div>
-    </div>
+      <div class="banner">
+          <div>Robot Controller</div>
+      </div>
+      <div class="container video">
+            <img src="{{ url_for('video_feed') }}">
+      </div>
+  </div>
 </body>
 
 </html>

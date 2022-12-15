@@ -23,8 +23,8 @@ __email__ = "benjamin.kraft@tufts.edu"
 __status__ = "Prototype"
 
 # Defines motor spins
-CLOCKWISE = 1
-COUNTER_CLOCKWISE = -1
+CLOCKWISE = -1
+COUNTER_CLOCKWISE = 1
 
 # Enum for directions
 class Direction(Enum):
