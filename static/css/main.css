@@ -5,6 +5,11 @@
   /* box-sizing: border-box; */
   font-family: "Lato", sans-serif;
 }
+.video_feed {
+  margin: auto;
+  width: 60%;
+  padding: 10px;
+}
 
 .banner {
   display: flex;
