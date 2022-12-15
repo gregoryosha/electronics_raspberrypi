@@ -166,9 +166,6 @@ input[type="radio"] {
   padding: 30px;
   text-align: center;
 }
-.set .d-pad {
-  margin-right: 40px;
-}
 .set .d-pad,
 .set .o-pad {
   display: inline-block;
@@ -180,7 +177,9 @@ input[type="radio"] {
   background: #5f9837;
 }
 .d-pad {
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 200px;
   height: 200px;
   border-radius: 48%;
