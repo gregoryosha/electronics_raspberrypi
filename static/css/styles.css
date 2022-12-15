@@ -6,10 +6,15 @@
   font-family: "Lato", sans-serif;
 }
 .video {
+  width: 30%;
+  padding: 10px;
+}
+
+.console {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30%;
+  gap: 16px;
   padding: 10px;
 }
 
