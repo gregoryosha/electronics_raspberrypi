@@ -83,7 +83,7 @@ pad_buttons.forEach(item => {
 })
 
 function touchStartHandler(event) {
-  var direction = event.target.dataset.direction;
+  var direction = event.target.closest("[data-direction]");
   console.log('Touch Start :: ' + direction)
   sendMessage(`${direction}/HIGH`);
 }
