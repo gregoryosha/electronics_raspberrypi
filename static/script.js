@@ -99,6 +99,30 @@ document.body.addEventListener("click", function (e) {
     e.preventDefault();
   }
 });
+
+function touchStartHandler(event) {
+  var direction = event.target.dataset.direction;
+  console.log('Touch Start :: ' + direction)
+  sendMessage(direction);
+}
+
+function touchEndHandler(event) {
+  const stop_command = 'stop';
+  var direction = event.target.dataset.direction;
+  console.log('Touch End :: ' + direction)
+  sendMessage(stop_command);
+}
+
+
+document.querySelectorAll('.control').forEach(item => {
+  item.addEventListener('touchstart', touchStartHandler);
+  
+})
+
+document.querySelectorAll('.control').forEach(item => {
+  item.addEventListener('touchend', touchEndHandler)
+})
+
 let dpads = Array.prototype.slice.call(
     document.getElementsByClassName("d-pad"),
     0

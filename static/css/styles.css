@@ -1,16 +1,16 @@
-.video {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30%;
-  padding: 10px;
-}
 @import url("https://fonts.googleapis.com/css?family=Lato:400,500,600,700&display=swap");
 * {
   margin: 0;
   padding: 0;
   /* box-sizing: border-box; */
   font-family: "Lato", sans-serif;
+}
+.video {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30%;
+  padding: 10px;
 }
 
 .banner {
