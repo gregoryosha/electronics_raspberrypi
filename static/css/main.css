@@ -6,7 +6,7 @@
   font-family: "Lato", sans-serif;
 }
 .video img{
-  margin: auto;
+  align-items: center;
   width: 60%;
   padding: 10px;
 }
