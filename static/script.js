@@ -62,35 +62,6 @@ window.addEventListener('keyup', (press) => {
 })
 
 
-// document.body.addEventListener("click", function (e) {
-//   if (e.target && e.target.nodeName == "A") {
-//     e.preventDefault();
-//   }
-// });
-
-// function touchStartHandler(event) {
-//   var direction = event.target.dataset.direction;
-//   console.log('Touch Start :: ' + direction)
-//   sendMessage(direction);
-// }
-
-// function touchEndHandler(event) {
-//   const stop_command = 'stop';
-//   var direction = event.target.dataset.direction;
-//   console.log('Touch End :: ' + direction)
-//   sendMessage(stop_command);
-// }
-
-
-// document.querySelectorAll('.control').forEach(item => {
-//   item.addEventListener('touchstart', touchStartHandler);
-  
-// })
-
-// document.querySelectorAll('.control').forEach(item => {
-//   item.addEventListener('touchend', touchEndHandler)
-// })
-
 // Prevent scrolling on every click!
 
 // super sweet vanilla JS delegated event handling!
@@ -112,12 +83,12 @@ function touchEndHandler(event) {
   sendMessage(`${direction}/LOW`);
 }
 
-document.querySelectorAll('.control').forEach(item => {
+document.querySelectorAll('control').forEach(item => {
   item.addEventListener('touchstart', touchStartHandler);
   
 })
 
-document.querySelectorAll('.control').forEach(item => {
+document.querySelectorAll('control').forEach(item => {
   item.addEventListener('touchend', touchEndHandler)
 })
 
