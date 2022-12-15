@@ -177,9 +177,7 @@ input[type="radio"] {
   background: #5f9837;
 }
 .d-pad {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
   width: 200px;
   height: 200px;
   border-radius: 48%;
