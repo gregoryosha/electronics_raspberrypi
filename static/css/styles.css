@@ -7,17 +7,8 @@
 }
 .video {
   display: flex;
-  align-self: top;
-  width: 30%;
-  border-radius: 10%;
-  padding: 10px;
-}
-
-.console {
-  display: flex;
-  align-items: center;
+  align-content: center;
   justify-content: center;
-  gap: 16px;
   padding: 10px;
 }
 
