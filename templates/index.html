@@ -7,8 +7,12 @@
 
   <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script type="text/javascript" src="/static/script.js"></script>
+
 
   <link rel="stylesheet" href="{{ url_for('static', filename='/css/styles.css') }}">
+  <link rel="stylesheet" href="/static/css/styles.css">
+
   <title>Flask Robot Controller</title>
 </head>
 
@@ -20,7 +24,6 @@
       <div class="container video">
             <img src="{{ url_for('video_feed') }}">
       </div>
-      <div class = "parent">
         <div class="set dark">
           <nav class="d-pad">
             <a class="up control" data-direction="1"></a>
@@ -29,7 +32,6 @@
             <a class="left control" data-direction="4"></a>
           </nav>
         </div>
-      </div>
   </div>
 </body>
 

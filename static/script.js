@@ -67,16 +67,17 @@ window.addEventListener('keyup', (press) => {
 // Prevent scrolling on every click!
 
 //super sweet vanilla JS delegated event handling!
-window.addEventListener("click", function (e) {
-  if (e.target && e.target.nodeName == "A") {
-    e.preventDefault();
-  }
-});
+// window.addEventListener("click", function (e) {
+//   if (e.target && e.target.nodeName == "A") {
+//     e.preventDefault();
+//   }
+// });
 
-window.addEventListener('touchmove', touchMoveHandler);
+//window.addEventListener('touchmove', touchMoveHandler);
 
 const pad_buttons = document.querySelectorAll('.control');
 pad_buttons.forEach(item => {
+  console.log(item)
   item.addEventListener('touchstart', touchStartHandler);
   item.addEventListener('touchend', touchEndHandler);
   item.addEventListener('touchmove', touchMoveHandler);
