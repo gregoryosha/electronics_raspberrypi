@@ -7,9 +7,9 @@
 
   <script type="text/javascript" src="{{ url_for('static',filename='script.js') }}"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/less" ></script>
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='/css/main.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='/css/entireframework.min.css') }}">
+  <link rel="stylesheet/less" type = "text/css" href="{{ url_for('static', filename='/css/main.less') }}">
   <title>Flask Robot Controller</title>
 </head>
 
@@ -20,6 +20,14 @@
       </div>
       <div class="container video">
             <img src="{{ url_for('video_feed') }}">
+      </div>
+      <div class="set">
+        <nav class="d-pad">
+          <a class="up" href="#"></a>
+          <a class="right" href="#"></a>
+          <a class="down" href="#"></a>
+          <a class="left" href="#"></a>  
+        </nav>
       </div>
   </div>
 </body>
