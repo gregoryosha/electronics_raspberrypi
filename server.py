@@ -84,10 +84,10 @@ def record_loop(loop_on, global_motor_states: dict[Direction, int]) -> NoReturn:
         if loop_on.value:
             if global_motor_states[Direction.FORWARD]:
                 print("Moving forward...")
-                controls._move_step(Direction.FORWARD, 0.0005)
+                controls.step(Direction.FORWARD)
             elif global_motor_states[Direction.BACKWARD]:
                 print("Moving backward...")
-                controls._move_step(Direction.BACKWARD, 0.0005)
+                controls.step(Direction.BACKWARD)
             elif global_motor_states[Direction.RIGHT]:
                 print("Turning right...")
                 controls.turn_degrees(5, 0.05, Direction.RIGHT)
