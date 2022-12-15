@@ -24,6 +24,7 @@ let pressed = {
 
 window.addEventListener('keydown', (press) => {
   if (press.key == 'ArrowUp' && !pressed.up) {
+    console.log("Keydown:" + press.key);
     sendMessage('1/HIGH');
     pressed.up = true;
   }
@@ -44,6 +45,7 @@ window.addEventListener('keydown', (press) => {
 
 window.addEventListener('keyup', (press) => {
   if (press.key == 'ArrowUp') {
+    console.log("Keyup:" + press.key);
     sendMessage('1/LOW');
     pressed.up = false;
   }
