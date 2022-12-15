@@ -74,17 +74,12 @@ window.addEventListener('keyup', (press) => {
 // });
 
 //window.addEventListener('touchmove', touchMoveHandler);
-
-const pad_buttons = document.querySelectorAll('.control');
-pad_buttons.forEach(item => {
-  console.log(item)
-  item.addEventListener('touchstart', touchStartHandler);
-  item.addEventListener('touchend', touchEndHandler);
-  item.addEventListener('touchmove', touchMoveHandler);
-})
+window.addEventListener('touchstart', touchStartHandler);
+window.addEventListener('touchend', touchEndHandler);
+window.addEventListener('touchmove', touchMoveHandler);
 
 function touchStartHandler(event) {
-  var direction = event.target.closest("[data-direction]");
+  var direction = event.target.dataset.direction;
   console.log('Touch Start :: ' + direction)
   sendMessage(`${direction}/HIGH`);
 }
