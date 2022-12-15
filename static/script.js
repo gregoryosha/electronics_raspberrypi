@@ -4,18 +4,6 @@ function print_out() {
 }
 
 function sendMessage(message) {
-  if(message =='up'){
-    message = '1/HIGH';
-  }
-  else if(message = 'down') {
-    message = '2/HIGH';
-  }
-  else if(message = 'right') {
-    message = '3/HIGH';
-  }
-  else if(message = 'left') {
-    message = '4/HIGH'
-  }
   $.get(`/digital/write/${message}`);
 }
 
