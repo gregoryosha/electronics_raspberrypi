@@ -65,11 +65,18 @@ window.addEventListener('keyup', (press) => {
 // Prevent scrolling on every click!
 
 // super sweet vanilla JS delegated event handling!
-document.body.addEventListener("click", function (e) {
-  if (e.target && e.target.nodeName == "A") {
-    e.preventDefault();
-  }
-});
+// document.body.addEventListener("click", function (e) {
+//   if (e.target && e.target.nodeName == "A") {
+//     e.preventDefault();
+//   }
+// });
+
+const pad_buttons = document.querySelectorAll('.control');
+pad_buttons.forEach(item => {
+  item.addEventListener('touchstart', touchStartHandler);
+  item.addEventListener('touchend', touchEndHandler);
+  item.addEventListener('touchmove', touchMoveHandler);
+})
 
 function touchStartHandler(event) {
   var direction = event.target.dataset.direction;
@@ -83,14 +90,10 @@ function touchEndHandler(event) {
   sendMessage(`${direction}/LOW`);
 }
 
-document.querySelectorAll('control').forEach(item => {
-  item.addEventListener('touchstart', touchStartHandler);
-  
-})
-
-document.querySelectorAll('control').forEach(item => {
-  item.addEventListener('touchend', touchEndHandler)
-})
+function touchMoveHandler(event) {
+  // Set call preventDefault()
+  event.preventDefault();
+}
 
 // let dpads = Array.prototype.slice.call(
 //     document.getElementsByClassName("d-pad"),
