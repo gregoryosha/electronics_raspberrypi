@@ -5,7 +5,7 @@
   /* box-sizing: border-box; */
   font-family: "Lato", sans-serif;
 }
-.video img{
+.video {
   display: flex;
   align-items: center;
   justify-content: center;
