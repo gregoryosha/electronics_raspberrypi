@@ -66,7 +66,7 @@ window.addEventListener('keyup', (press) => {
   }
 })
 
-
+/*
 //on click functionality
 document.body.addEventListener("click", function (e) {
   if (e.target && e.target.nodeName == "A") {
@@ -96,4 +96,4 @@ document.querySelectorAll('.control').forEach(item => {
   item.addEventListener('touchend', touchEndHandler)
 })
 
-
+*/
