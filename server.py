@@ -5,13 +5,12 @@ server to execute controls commands via `Flask`.
 """
 
 import atexit
-import time
 from multiprocessing import Manager, Process, Value
 from typing import NoReturn
 
-from flask import Flask, render_template, Response
-
 import cv2
+from flask import Flask, render_template
+from flask.wrappers import Response
 
 import controls
 from controls import Direction
@@ -28,7 +27,7 @@ __status__ = "Prototype"
 DIRECTIONS = (Direction.FORWARD, Direction.BACKWARD, Direction.LEFT, Direction.RIGHT)
 
 app = Flask(__name__)
-camera = cv2.VideoCapture(0) #creates a local camera
+camera = cv2.VideoCapture(0)  # creates a local camera
 
 global_motor_states = {}
 
@@ -39,24 +38,28 @@ def gen_frames():
         if not success:
             break
         else:
-            ret, buffer = cv2.imencode('.jpg', frame)
+            ret, buffer = cv2.imencode(".jpg", frame)
             frame = buffer.tobytes()
-            yield(b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')  # concat frame one by one and show result
+            yield (
+                b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
+            )  # concat frame one by one and show result
+
 
 @app.route("/")
 def home():
     return render_template("index.html")
 
-@app.route('/video_feed')
+
+@app.route("/video_feed")
 def video_feed():
-    return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
+    return Response(gen_frames(), mimetype="multipart/x-mixed-replace; boundary=frame")
 
 
 @app.route("/digital/write/<direction_id>/<value>")
 def digital_write(direction_id: str, value: str) -> str:
-    """Allows for flask writing of states."""
-
+    """
+    Allows for flask writing of states.
+    """
     # Assigns corrected direction index
     direction_index = int(direction_id) - 1
     # Throws error for invalid direction ID
@@ -80,6 +83,9 @@ def digital_write(direction_id: str, value: str) -> str:
 
 
 def record_loop(loop_on, global_motor_states: dict[Direction, int]) -> NoReturn:
+    """
+    Executes primary functions in asynchronous loop.
+    """
     while True:
         if loop_on.value:
             if global_motor_states[Direction.FORWARD]:

@@ -84,8 +84,9 @@ def main() -> None:
 
 
 def pin_setup() -> None:
-    """Sets up board mode and motor pins."""
-
+    """
+    Sets up board mode and motor pins.
+    """
     # Sets board mode
     GPIO.setmode(GPIO.BOARD)  # type: ignore
     # Sets all motor pins to output and disengages them
@@ -95,13 +96,16 @@ def pin_setup() -> None:
 
 
 def cleanup() -> None:
-    """Turns off any pins left on."""
+    """
+    Turns off any pins left on.
+    """
     GPIO.cleanup()  # type: ignore
 
 
 def turn_degrees(degrees: float, time_seconds: float, direction: Direction) -> None:
-    """Turns robot specified degrees in an amount of time in a direction."""
-
+    """
+    Turns robot specified degrees in an amount of time in a direction.
+    """
     # Raises error if not in rotational directions
     if direction not in ROTATIONAL_DIRECTIONS:
         raise ValueError("Invalid direction for rotational movement.")
@@ -115,8 +119,9 @@ def turn_degrees(degrees: float, time_seconds: float, direction: Direction) -> N
 def move_distance(
     distance_mm: float, time_seconds: float, direction: Direction = Direction.FORWARD
 ) -> None:
-    """Turns motors a GROUND DISTANCE in an amount of time in a direction."""
-
+    """
+    Turns motors a GROUND DISTANCE in an amount of time in a direction.
+    """
     # Raises error if not in translational directions
     if direction not in TRANSLATIONAL_DIRECTIONS:
         raise ValueError("Invalid direction for translational movement.")
@@ -128,8 +133,9 @@ def move_distance(
 def _engage_motors(
     number_rotations: float, time_seconds: float, direction: Direction
 ) -> None:
-    """Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction."""
-
+    """
+    Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction.
+    """
     # Throws error if motor would be turning too fast
     if number_rotations > time_seconds:
         raise ValueError("Too many rotations! Use a longer time!")
@@ -147,8 +153,9 @@ def _engage_motors(
 
 
 def _move_step(direction: Direction, delay: float = 0.001) -> None:
-    """Moves motors one step in direction"""
-
+    """
+    Moves motors one step in direction.
+    """
     # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
@@ -163,27 +170,37 @@ def _move_step(direction: Direction, delay: float = 0.001) -> None:
 
 
 def step(direction: Direction = Direction.FORWARD):
-    """Steps motors forward in specified direction"""
+    """
+    Steps motors forward in specified direction.
+    """
     _move_step(direction)
 
 
 def move_forward(distance_mm: float = 250, time_seconds: float = 3) -> None:
-    """Moves robot forward. Optional: Distance, Time."""
+    """
+    Moves robot forward. Optional: Distance, Time.
+    """
     move_distance(distance_mm, time_seconds, Direction.FORWARD)
 
 
 def move_backward(distance_mm: float = 250, time_seconds: float = 3) -> None:
-    """Moves robot forward. Optional: Distance, Time."""
+    """
+    Moves robot forward. Optional: Distance, Time.
+    """
     move_distance(distance_mm, time_seconds, Direction.BACKWARD)
 
 
 def turn_left(degrees: float = 90, time_seconds: float = 2) -> None:
-    """Rotates robot to the left. Optional: Degrees, Time."""
+    """
+    Rotates robot to the left. Optional: Degrees, Time.
+    """
     turn_degrees(degrees, time_seconds, Direction.LEFT)
 
 
 def turn_right(degrees: float = 90, time_seconds: float = 2) -> None:
-    """Rotates robot to the right. Optional: Degrees, Time."""
+    """
+    Rotates robot to the right. Optional: Degrees, Time.
+    """
     turn_degrees(degrees, time_seconds, Direction.RIGHT)
 
 
