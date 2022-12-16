@@ -16,10 +16,10 @@ function led_off() {
 }
 
 let pressed = {
-  up:false,
-  down:false,
-  right:false,
-  left:false
+  up: false,
+  down: false,
+  right: false,
+  left: false
 }
 
 window.addEventListener('keydown', (press) => {

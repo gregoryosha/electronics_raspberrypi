@@ -12,4 +12,4 @@ time.sleep(1)
 controls.move_forward(300)
 time.sleep(1)
 
-controls.cleanup()
+controls.pin_cleanup()

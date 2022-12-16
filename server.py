@@ -38,7 +38,7 @@ def gen_frames():
         if not success:
             break
         else:
-            ret, buffer = cv2.imencode(".jpg", frame)
+            _, buffer = cv2.imencode(".jpg", frame)
             frame = buffer.tobytes()
             yield (
                 b"--frame\r\n" b"Content-Type: image/jpeg\r\n\r\n" + frame + b"\r\n"
@@ -58,7 +58,7 @@ def video_feed():
 @app.route("/digital/write/<direction_id>/<value>")
 def digital_write(direction_id: str, value: str) -> str:
     """
-    Allows for flask writing of states.
+    Allows for flask writing and reseting of states.
     """
     # Assigns corrected direction index
     direction_index = int(direction_id) - 1
@@ -104,7 +104,7 @@ def record_loop(loop_on, global_motor_states: dict[Direction, int]) -> NoReturn:
 
 def exit_handler() -> None:
     # Cleans up GPIO pins
-    controls.cleanup()
+    controls.pin_cleanup()
     print("Exiting...")
 
 

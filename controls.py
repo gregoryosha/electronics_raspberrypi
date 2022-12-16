@@ -9,7 +9,6 @@ functions.
 import math
 import time
 from enum import Enum
-from typing import Any
 
 import RPi.GPIO as GPIO
 
@@ -38,8 +37,9 @@ class Direction(Enum):
 TRANSLATIONAL_DIRECTIONS = (Direction.FORWARD, Direction.BACKWARD)
 ROTATIONAL_DIRECTIONS = (Direction.LEFT, Direction.RIGHT)
 
+# Refered constants
 STEPS_PER_ROTATION = 50
-MIN_MOTOR_DELAY = 0.001
+MINIMUM_MOTOR_DELAY = 0.001
 
 RADIUS_WHEEL_MM = 45
 WHEEL_CIRCUMFERENCE = 2 * math.pi * RADIUS_WHEEL_MM
@@ -81,7 +81,7 @@ def main() -> None:
     time.sleep(1)
     turn_right()
 
-    cleanup()
+    pin_cleanup()
 
 
 def pin_setup() -> None:
@@ -96,7 +96,7 @@ def pin_setup() -> None:
         GPIO.output(pin, False)  # type: ignore
 
 
-def cleanup() -> None:
+def pin_cleanup() -> None:
     """
     Turns off any pins left on.
     """
@@ -149,12 +149,12 @@ def _engage_motors(
         _move_step(direction, delay)
 
 
-def _move_step(direction: Direction, delay: float = MIN_MOTOR_DELAY) -> None:
+def _move_step(direction: Direction, delay: float = MINIMUM_MOTOR_DELAY) -> None:
     """
     Moves motors one step in direction.
     """
     # Throws error if moving to quickly
-    if delay < MIN_MOTOR_DELAY:
+    if delay < MINIMUM_MOTOR_DELAY:
         raise ValueError("Too fast to turn! Use a larger time!")
     # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
