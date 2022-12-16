@@ -1,6 +1,6 @@
 import time
 
-import infared
+import ultrasonic
 
 import controls
 
@@ -26,11 +26,11 @@ def main() -> None:
 
 
 def forward_wall() -> bool:
-    return infared.forward_distance() <= WALL_DISTANCE_MAX
+    return ultrasonic.forward_distance() <= WALL_DISTANCE_MAX
 
 
 def right_wall() -> bool:
-    return infared.right_distance() <= WALL_DISTANCE_MAX
+    return ultrasonic.right_distance() <= WALL_DISTANCE_MAX
 
 
 if __name__ == "__main__":
