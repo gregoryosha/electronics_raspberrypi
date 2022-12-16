@@ -23,8 +23,8 @@ __email__ = "benjamin.kraft@tufts.edu"
 __status__ = "Prototype"
 
 # Defines motor spins
-CLOCKWISE = 1
-COUNTER_CLOCKWISE = -1
+CLOCKWISE = -1
+COUNTER_CLOCKWISE = 1
 
 # Enum for directions
 class Direction(Enum):
@@ -112,7 +112,7 @@ def turn_degrees(degrees: float, time_seconds: float, direction: Direction) -> N
     _engage_motors((distance_mm / WHEEL_CIRCUMFERENCE), time_seconds, direction)
 
 
-def move_distance(
+def _move_distance(
     distance_mm: float, time_seconds: float, direction: Direction = Direction.FORWARD
 ) -> None:
     """Turns motors a GROUND DISTANCE in an amount of time in a direction."""
@@ -169,12 +169,12 @@ def step(direction: Direction = Direction.FORWARD):
 
 def move_forward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
-    move_distance(distance_mm, time_seconds, Direction.FORWARD)
+    _move_distance(distance_mm, time_seconds, Direction.FORWARD)
 
 
 def move_backward(distance_mm: float = 250, time_seconds: float = 3) -> None:
     """Moves robot forward. Optional: Distance, Time."""
-    move_distance(distance_mm, time_seconds, Direction.BACKWARD)
+    _move_distance(distance_mm, time_seconds, Direction.BACKWARD)
 
 
 def turn_left(degrees: float = 90, time_seconds: float = 2) -> None:
