@@ -18,10 +18,11 @@
 
 @media (max-width: 600px) {
   .mobile{display: block;}
+  .video img{width: 100%;}
 }
 
 .video img {
-  height: 50%;
+  height: 80%;
 }
 
 .banner {
