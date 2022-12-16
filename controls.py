@@ -39,6 +39,7 @@ TRANSLATIONAL_DIRECTIONS = (Direction.FORWARD, Direction.BACKWARD)
 ROTATIONAL_DIRECTIONS = (Direction.LEFT, Direction.RIGHT)
 
 STEPS_PER_ROTATION = 50
+MIN_MOTOR_DELAY = 0.001
 
 RADIUS_WHEEL_MM = 45
 WHEEL_CIRCUMFERENCE = 2 * math.pi * RADIUS_WHEEL_MM
@@ -136,10 +137,6 @@ def _engage_motors(
     """
     Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction.
     """
-    # Throws error if motor would be turning too fast
-    if number_rotations > time_seconds:
-        raise ValueError("Too many rotations! Use a longer time!")
-
     # Defines a number of steps
     steps_count = int(STEPS_PER_ROTATION * number_rotations)
 
@@ -152,10 +149,13 @@ def _engage_motors(
         _move_step(direction, delay)
 
 
-def _move_step(direction: Direction, delay: float = 0.001) -> None:
+def _move_step(direction: Direction, delay: float = MIN_MOTOR_DELAY) -> None:
     """
     Moves motors one step in direction.
     """
+    # Throws error if moving to quickly
+    if delay < MIN_MOTOR_DELAY:
+        raise ValueError("Too fast to turn! Use a larger time!")
     # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
