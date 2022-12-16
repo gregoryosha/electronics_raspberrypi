@@ -12,6 +12,14 @@
   padding: 10px;
 }
 
+.mobile {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .mobile{display: block;}
+}
+
 .video img {
   height: 70%;
 }
