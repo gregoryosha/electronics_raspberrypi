@@ -7,10 +7,13 @@
 }
 .video {
   display: flex;
-  align-items: center;
+  align-content: center;
   justify-content: center;
-  width: 30%;
   padding: 10px;
+}
+
+.video img {
+  width: 90%;
 }
 
 .banner {
@@ -162,9 +165,6 @@ input[type="radio"] {
   overflow: hidden;
   padding: 30px;
   text-align: center;
-}
-.set .d-pad {
-  margin-right: 40px;
 }
 .set .d-pad,
 .set .o-pad {
