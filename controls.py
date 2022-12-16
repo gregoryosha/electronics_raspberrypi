@@ -63,10 +63,10 @@ HALFSTEPS_COUNT = len(HALFSTEP_SEQUENCE)
 # Defines the number of pins used in sequence
 HALFSTEP_PINS_COUNT = len(HALFSTEP_SEQUENCE[0])
 
-# MOTOR_LEFT_PINS = [11, 13, 15, 16]
-MOTOR_LEFT_PINS = [15, 11, 13, 16]
-# MOTOR_RIGHT_PINS = [29, 31, 32, 33]
-MOTOR_RIGHT_PINS = [31, 29, 32, 33]
+# MOTOR_LEFT_PINS = (11, 13, 15, 16)
+MOTOR_LEFT_PINS = (15, 11, 13, 16)
+# MOTOR_RIGHT_PINS = (29, 31, 32, 33)
+MOTOR_RIGHT_PINS = (31, 29, 32, 33)
 
 
 def main() -> None:
@@ -114,28 +114,28 @@ def turn_degrees(degrees: float, time_seconds: float, direction: Direction) -> N
     # Calculates perimeter distance needed to travel
     distance_mm = TURNING_CIRCUMFERENCE * degrees / 360
     # Moves calculated distance
-    _engage_motors((distance_mm / WHEEL_CIRCUMFERENCE), time_seconds, direction)
+    _rotate_motors((distance_mm / WHEEL_CIRCUMFERENCE), time_seconds, direction)
 
 
 def move_distance(
     distance_mm: float, time_seconds: float, direction: Direction = Direction.FORWARD
 ) -> None:
     """
-    Turns motors a GROUND DISTANCE in an amount of time in a direction.
+    Turns motors a ground distance in an amount of time in a direction.
     """
     # Raises error if not in translational directions
     if direction not in TRANSLATIONAL_DIRECTIONS:
         raise ValueError("Invalid direction for translational movement.")
 
     # Turns number of rotations needed to move distance
-    _engage_motors((distance_mm / WHEEL_CIRCUMFERENCE), time_seconds, direction)
+    _rotate_motors((distance_mm / WHEEL_CIRCUMFERENCE), time_seconds, direction)
 
 
-def _engage_motors(
+def _rotate_motors(
     number_rotations: float, time_seconds: float, direction: Direction
 ) -> None:
     """
-    Turns motors a NUMBER OF ROTATIONS in an amount of time in a direction.
+    Turns motors a number of rotations in an amount of time in a direction.
     """
     # Defines a number of steps
     steps_count = int(STEPS_PER_ROTATION * number_rotations)
@@ -146,23 +146,29 @@ def _engage_motors(
     # For as many steps as specified:
     for _ in range(steps_count):
         # Move one step in direction
-        _move_step(direction, delay)
+        _step_motors(direction, delay)
 
 
-def _move_step(direction: Direction, delay: float = MINIMUM_MOTOR_DELAY) -> None:
+def _step_motors(direction: Direction, delay: float = MINIMUM_MOTOR_DELAY) -> None:
     """
-    Moves motors one step in direction.
+    Moves motors one step in direction. Optional: Step delay.
     """
     # Throws error if moving to quickly
     if delay < MINIMUM_MOTOR_DELAY:
         raise ValueError("Too fast to turn! Use a larger time!")
+
+    # Defines the sequence for each motor from specified direction
+    sequences = tuple(HALFSTEP_SEQUENCE[::i] for i in direction.value)
     # For each halfstep in sequence
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
         for pin in range(HALFSTEP_PINS_COUNT):
             # Assigns corresponding motor pins to sequence in specified direction
-            GPIO.output(MOTOR_LEFT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[0]][halfstep][pin])  # type: ignore
-            GPIO.output(MOTOR_RIGHT_PINS[pin], HALFSTEP_SEQUENCE[:: direction.value[1]][halfstep][pin])  # type: ignore
+            GPIO.output(MOTOR_LEFT_PINS[pin], sequences[0][halfstep][pin])  # type: ignore
+            GPIO.output(MOTOR_RIGHT_PINS[pin], sequences[1][halfstep][pin])  # type: ignore
+            # THIS TIMER WORKS BUT SHOULD IN BE WITHIN THIS LOOP OR THE ONE
+            # BELOW, BECAUSE DO THE PINS NEED TIME BETWEEN EACH ONE ACTIVATING
+            # OR JUST EACH HALFSTEP STAGE??? I'M TOO SCARED TO TRY IT. -BK
             time.sleep(delay)
 
 
@@ -173,7 +179,7 @@ def step(direction: Direction = Direction.FORWARD):
     """
     Steps motors forward in specified direction.
     """
-    _move_step(direction)
+    _step_motors(direction)
 
 
 def move_forward(distance_mm: float = 250, time_seconds: float = 3) -> None:
