@@ -163,12 +163,12 @@ def _step_motors(direction: Direction, delay: float = MINIMUM_MOTOR_DELAY) -> No
     for halfstep in range(HALFSTEPS_COUNT):
         # For each pin value
         for pin in range(HALFSTEP_PINS_COUNT):
-            # Assigns corresponding motor pins to sequence in specified direction
+            # Assigns corresponding motor pins to action from designated sequence
             GPIO.output(MOTOR_LEFT_PINS[pin], sequences[0][halfstep][pin])  # type: ignore
             GPIO.output(MOTOR_RIGHT_PINS[pin], sequences[1][halfstep][pin])  # type: ignore
             # THIS TIMER WORKS BUT SHOULD IN BE WITHIN THIS LOOP OR THE ONE
             # BELOW, BECAUSE DO THE PINS NEED TIME BETWEEN EACH ONE ACTIVATING
-            # OR JUST EACH HALFSTEP STAGE??? I'M TOO SCARED TO TRY IT. -BK
+            # OR JUST EACH HALFSTEP STAGE??? I'M SCARED TO TRY IT .･(>д<)･. -BK
             time.sleep(delay)
 
 
